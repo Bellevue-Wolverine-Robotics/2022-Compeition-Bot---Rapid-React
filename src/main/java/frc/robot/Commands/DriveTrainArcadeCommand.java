@@ -1,4 +1,4 @@
-/*package frc.robot.Commands;
+package frc.robot.Commands;
 
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveTrainArcadeCommand extends CommandBase {
 
-    private final DifferentialDrive driveTrainSubsystem;
+    private final DriveTrainSubsystem driveTrainSubsystem;
     private final Joystick Joystick1;
 
-    public DriveTrainArcadeCommand(DifferentialDrive driveTrainSubsystem, Joystick Joystick1) {
+    public DriveTrainArcadeCommand(DriveTrainSubsystem driveTrainSubsystem, Joystick Joystick1) {
         this.driveTrainSubsystem = driveTrainSubsystem;
         this.Joystick1 = Joystick1;
     }
@@ -26,4 +26,3 @@ public class DriveTrainArcadeCommand extends CommandBase {
 
     
 } 
-*/

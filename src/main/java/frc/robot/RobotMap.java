@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Commands.DriveTrainArcadeCommand;
 import frc.robot.Subsystems.*;
 
 public class RobotMap {
@@ -21,6 +22,9 @@ public class RobotMap {
     }
 
     private void configureDefaultCommands() {
+        /* Test of command based robot control */
+        this.driveTrain.setDefaultCommand(new DriveTrainArcadeCommand(driveTrain, Joystick1));
+
     }
 		
 
