@@ -21,7 +21,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     private final MotorControllerGroup leftControllerGroup = new MotorControllerGroup(leftfrontmotor, leftbackmotor);
     private final MotorControllerGroup rightControllerGroup = new MotorControllerGroup(rightfrontmotor, rightbackmotor);
-    DifferentialDrive m_drive = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
+    private final DifferentialDrive m_drive = new DifferentialDrive(leftControllerGroup, rightControllerGroup);
     
     
     public DriveTrainSubsystem() {
