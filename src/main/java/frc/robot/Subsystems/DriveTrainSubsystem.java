@@ -40,5 +40,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
         
     }
 
+    public void arcadeDrive(double forwardBack, double leftRight) {
+        m_drive.arcadeDrive(forwardBack, leftRight);
+    }
 }
 
