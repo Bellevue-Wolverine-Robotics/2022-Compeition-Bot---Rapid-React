@@ -4,14 +4,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Subsystems.*;
-import frc.robot.RobotMap.*;
+import frc.robot.Commands.ArcadeDriveDistanceCommand;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -19,12 +18,12 @@ import frc.robot.RobotMap.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command autonomousCommand;
+  private Command m_autonomousCommand;
 
-	private RobotMap robotMap;
+	private RobotMap m_robotMap;
 
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String DEFAULT_AUTO = "Default";
+  private static final String CUSTOM_AUTO = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -34,10 +33,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.setDefaultOption("Default Auto", DEFAULT_AUTO);
+    m_chooser.addOption("My Auto", CUSTOM_AUTO);
     SmartDashboard.putData("Auto choices", m_chooser);
-    this.robotMap = new RobotMap(); 
+
+    CameraServer.startAutomaticCapture();
+
+    this.m_robotMap = new RobotMap(); 
   }
 
   /**
@@ -50,7 +52,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
   }
 
   /**
@@ -67,53 +68,49 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    if (this.m_autonomousCommand == null) {
+      this.m_autonomousCommand = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 18, 0.3);
+      this.m_autonomousCommand.schedule();
+    }
+
     switch (m_autoSelected) {
-      case kCustomAuto:
+      case CUSTOM_AUTO:
         // Put custom auto code here
         break;
-      case kDefaultAuto:
+      case DEFAULT_AUTO:
       default:
         // Put default auto code here
         break;
     }
 
-
-		if (this.autonomousCommand != null) {
-			this.autonomousCommand.schedule();
-		}
+		// if (this.m_autonomousCommand != null) {
+		// 	this.m_autonomousCommand.schedule();
+		// }
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    if (this.autonomousCommand != null) {
-			this.autonomousCommand.cancel();
+    if (this.m_autonomousCommand != null) {
+			this.m_autonomousCommand.cancel();
 		}
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
-
-
-
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
-		this.robotMap.onDisable();
-
-
+		this.m_robotMap.onDisable();
   }
 
   /** This function is called periodically when disabled. */

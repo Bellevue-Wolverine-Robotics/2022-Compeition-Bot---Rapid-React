@@ -1,17 +1,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Commands.DriveTrainArcadeCommand;
+import frc.robot.Commands.JoystickArcadeDriveCommand;
 import frc.robot.Subsystems.*;
 
 public class RobotMap {
-    private final Joystick Joystick1 = new Joystick(0);
-	private final Joystick Joystick2 = new Joystick(1);
-	private final Joystick Joystick3 = new Joystick(2);
+    private final Joystick Joystick1 = new Joystick(Constants.JOYSTICK_1);
+	private final Joystick Joystick2 = new Joystick(Constants.JOYSTICK_2);
+	private final Joystick Joystick3 = new Joystick(Constants.JOYSTICK_3);
 
-	private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
+	private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
 
     public RobotMap() {
 		this.configureDefaultCommands();
@@ -22,16 +20,16 @@ public class RobotMap {
     }
 
     private void configureDefaultCommands() {
+        JoystickArcadeDriveCommand command = new JoystickArcadeDriveCommand(this.m_driveTrain, Joystick1);
         /* Test of command based robot control */
-        this.driveTrain.setDefaultCommand(new DriveTrainArcadeCommand(driveTrain, Joystick1));
-
+        this.m_driveTrain.setDefaultCommand(command);
     }
-		
-
 
     public void onDisable() {
 
 	}
-    
 
+    public DriveTrainSubsystem getDriveTrain() {
+        return this.m_driveTrain;
+    }
 }
