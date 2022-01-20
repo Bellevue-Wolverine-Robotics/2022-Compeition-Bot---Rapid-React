@@ -22,7 +22,9 @@ public class JoystickArcadeDriveCommand extends CommandBase {
     public void execute() {
         // Forward is negative on the joy stick, which is a bit weird
         double forwardBack = -this.m_joystick1.getY();
-        // double leftRight = -this.m_joystick1.getX();
+
+        // This doesn't hold true on the other joystick axis. 
+        // Confusing I know. Left is negative, right is positive on the axis
         double leftRight = this.m_joystick1.getX();
 
         new ArcadeDriveCommand(this.m_driveTrainSubsystem, forwardBack, leftRight).execute();
