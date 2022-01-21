@@ -1,12 +1,11 @@
 package frc.robot.Subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
@@ -40,6 +39,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
         this.m_rightBackMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
     }
 
+    @Override
     public void periodic() {
         
     }
