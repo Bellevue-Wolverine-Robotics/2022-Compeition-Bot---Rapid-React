@@ -3,22 +3,53 @@ package frc.robot.Subsystems;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
-
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ColorSensorSubsystem extends SubsystemBase {
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(Port.kOnboard);
-    private final ColorMatch m_colormatcher = new ColorMatch();
+    private final ColorMatch m_colorMatcher = new ColorMatch();
     
-    public boolean matchColor(Color color) {
-        ColorMatchResult result = getColor();
-        return result != null && result.color == color;
+    public static final Color BLUE = new Color(0.26, 0.47, 0.26);
+    public static final Color RED = new Color(0.67, 0.29, 0.04);
+
+    public ColorSensorSubsystem() {
+        addMatchColor(BLUE);
+        addMatchColor(RED);
+
+        this.m_colorMatcher.setConfidenceThreshold(0.9);
     }
 
-    public ColorMatchResult getColor() {
-        return this.m_colormatcher.matchColor(this.m_colorSensor.getColor());
+    public void addMatchColor(Color color) {
+        this.m_colorMatcher.addColorMatch(color);
+    }
+
+    public ColorMatchResult getClosestMatch() {
+        return this.m_colorMatcher.matchClosestColor(this.getColor());
+    }
+
+    public ColorMatchResult getMatch() {
+        return this.m_colorMatcher.matchColor(this.getColor());
+    }
+
+    public String getMatchColorName() {
+        ColorMatchResult result = this.getMatch();
+        if (result == null) {
+            return "";
+        }
+        
+        if (result.color == RED) {
+            return "red";
+        } else if (result.color == BLUE) {
+            return "blue";
+        } else {
+            return "";
+        }
+    }
+
+    public Color getColor() {
+        return this.m_colorSensor.getColor();
     }
 
     public ColorSensorV3 getColorSensor() {
