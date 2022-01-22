@@ -13,6 +13,9 @@ public class Constants {
     public static final int RIGHT_FRONT_ID = 3;
     public static final int RIGHT_BACK_ID = 4;
 
+    public static final int NEO_ID = 5;
+    public static final int REDLINE_ID = 6;
+    
     public static final int WHEEL_SIZE = 6;
     public static final double GEAR_RATIO = 1 / 10.71;
     // Calculate the position factor by calculating the circumference of the wheel times the gear ratio
