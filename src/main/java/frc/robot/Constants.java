@@ -7,13 +7,17 @@ public class Constants {
 	public static final int JOYSTICK_3 = 2;
 
 	public static final int QUICKTURN_BUTTON = 1;
+	public static final int JOYSTICK_2_INTAKE_BUTTON = 1;
 
     public static final int LEFT_FRONT_ID = 1;
     public static final int LEFT_BACK_ID = 2;
     public static final int RIGHT_FRONT_ID = 3;
     public static final int RIGHT_BACK_ID = 4;
 
+    // Next 2 CAN ids for 2 test motors
+    // Test CAN id for the NEO motor
     public static final int NEO_ID = 5;
+    // Test CAN id for the Redline motor
     public static final int REDLINE_ID = 6;
     
     public static final int WHEEL_SIZE = 6;
