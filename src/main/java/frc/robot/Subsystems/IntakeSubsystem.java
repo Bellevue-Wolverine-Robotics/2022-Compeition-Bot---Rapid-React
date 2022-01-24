@@ -1,29 +1,27 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final VictorSPX m_intakeMotor = new VictorSPX(Constants.REDLINE_ID);
 
-    private boolean intakeActivated;
+    private boolean m_intakeActivated;
 
     public IntakeSubsystem() {
-        intakeActivated = false;
+        this.m_intakeActivated = false;
     }
 
     //Lowers arm and activates motor
     public void ToggleIntake() {
-        if (intakeActivated == false) {
-            m_intakeMotor.set(ControlMode.PercentOutput, .5);
-            intakeActivated = true;
+        if (!this.m_intakeActivated) {
+            this.m_intakeMotor.set(ControlMode.PercentOutput, .5);
+            this.m_intakeActivated = true;
         } else {
-            m_intakeMotor.set(ControlMode.PercentOutput, 0);
-            intakeActivated = false;
+            this.m_intakeMotor.set(ControlMode.PercentOutput, 0);
+            this.m_intakeActivated = false;
         }
     }
 
