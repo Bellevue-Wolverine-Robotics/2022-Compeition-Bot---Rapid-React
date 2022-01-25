@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Commands.JoystickArcadeDriveCommand;
-import frc.robot.Commands.StartIntakeCommand;
+import frc.robot.Commands.ArcadeDriveJoystickCommand;
+import frc.robot.Commands.IntakeStartCommand;
 import frc.robot.Subsystems.*;
 
 /* Creates robot subsystems and commands, binds those commands to triggering 
@@ -29,11 +29,11 @@ public class RobotMap {
 
     private void configureButtonBindings() {
         JoystickButton test = new JoystickButton(m_joystick2, Constants.JOYSTICK_2_INTAKE_BUTTON);
-        test.whenPressed(new StartIntakeCommand(m_intake));
+        test.whenPressed(new IntakeStartCommand(m_intake));
     }
 
     private void configureDefaultCommands() {
-        JoystickArcadeDriveCommand command = new JoystickArcadeDriveCommand(this.m_driveTrain, this.m_joystick1);
+        ArcadeDriveJoystickCommand command = new ArcadeDriveJoystickCommand(this.m_driveTrain, this.m_joystick1);
         /* Test of command based robot control */
         this.m_driveTrain.setDefaultCommand(command);
     }

@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveTrainSubsystem;
 
-public class JoystickArcadeDriveCommand extends CommandBase {
+public class ArcadeDriveJoystickCommand extends CommandBase {
 
     private final DriveTrainSubsystem m_driveTrainSubsystem;
     private final Joystick m_joystick1;
 
-    public JoystickArcadeDriveCommand(DriveTrainSubsystem driveTrainSubsystem, Joystick Joystick1) {
+    public ArcadeDriveJoystickCommand(DriveTrainSubsystem driveTrainSubsystem, Joystick Joystick1) {
         this.m_driveTrainSubsystem = driveTrainSubsystem;
         this.m_joystick1 = Joystick1;
 

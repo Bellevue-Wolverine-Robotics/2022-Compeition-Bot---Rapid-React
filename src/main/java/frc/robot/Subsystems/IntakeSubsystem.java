@@ -11,12 +11,10 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final IMotorController m_intakeMotor = new VictorSPX(Constants.INTAKE_MOTOR);
-
     private final float m_motorSpeed = 1;
 
     private final DoubleSolenoid m_leftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.INTAKE_LEFT_DEPLOY, Constants.INTAKE_LEFT_RETRACT);
     private final DoubleSolenoid m_rightSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.INTAKE_RIGHT_DEPLOY, Constants.INTAKE_RIGHT_RETRACT);
-
     private boolean m_isArmRaised = true;
 
     public IntakeSubsystem() {

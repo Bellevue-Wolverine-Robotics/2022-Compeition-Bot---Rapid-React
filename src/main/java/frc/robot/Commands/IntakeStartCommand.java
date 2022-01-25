@@ -3,10 +3,10 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.IntakeSubsystem;
 
-public class StartIntakeCommand extends CommandBase {
+public class IntakeStartCommand extends CommandBase {
     private IntakeSubsystem m_intakeSubsystem;
 
-    public StartIntakeCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeStartCommand(IntakeSubsystem intakeSubsystem) {
         this.m_intakeSubsystem = intakeSubsystem;
     }
 

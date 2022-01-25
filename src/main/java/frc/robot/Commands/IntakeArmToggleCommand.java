@@ -3,10 +3,10 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Subsystems.IntakeSubsystem;
 
-public class ToggleIntakeArmCommand extends InstantCommand {
+public class IntakeArmToggleCommand extends InstantCommand {
     private IntakeSubsystem m_intakeSubsystem;
 
-    public ToggleIntakeArmCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeArmToggleCommand(IntakeSubsystem intakeSubsystem) {
         this.m_intakeSubsystem = intakeSubsystem;
     }
 
