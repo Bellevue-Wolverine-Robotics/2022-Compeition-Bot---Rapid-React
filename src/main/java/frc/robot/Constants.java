@@ -14,6 +14,7 @@ public class Constants {
     
     /*
      * Drive
+     * All CAN IDs
      */
     public static final int LEFT_FRONT = 1;
     public static final int LEFT_BACK = 2;
@@ -28,35 +29,44 @@ public class Constants {
     public static final double POSITION_FACTOR = Math.PI * WHEEL_SIZE * GEAR_RATIO;
 
     
+    // All ID's beyond this point are assumptions, except the test motors.
     /*
      * Shooter
      */
-    public static final int SHOOTER_MOTOR = -1;
+    // CAN IDs
+    public static final int SHOOTER_MOTOR = 8;
+
     // Motor or piston now dunno which
-    public static final int HEAD_CONTROL_MOTOR = -1;
-    public static final int HEAD_CONTROL_PISTON = -1;
+    public static final int HEAD_CONTROL_MOTOR = 9;
+    public static final int HEAD_CONTROL_PISTON_DEPLOY = 7;
+    public static final int HEAD_CONTROL_PISTON_RETRACT = 8;
+
 
     /*
      * Climb
      */
-    public static final int LONG_ARM_MOTOR_1 = -1;
-    public static final int LONG_ARM_MOTOR_2 = -1;
+    // CAN IDs
+    public static final int LONG_ARM_MOTOR_1 = 6;
+    public static final int LONG_ARM_MOTOR_2 = 7;
 
-    public static final int SMALL_ARM_DEPLOY = -1;
-    public static final int SMALL_ARM_RETRACT = -1;
+    // PCM IDs
+    public static final int SMALL_ARM_DEPLOY = 5;
+    public static final int SMALL_ARM_RETRACT = 6;
 
 
     /*
      * Intake
      */
-    public static final int INTAKE_MOTOR = -1;
+    // CAN IDs
+    public static final int INTAKE_MOTOR = 5;
 
-    public static final int INTAKE_LEFT_DEPLOY = -1;
-    public static final int INTAKE_LEFT_RETRACT = -1;
-    public static final int INTAKE_RIGHT_DEPLOY = -1;
-    public static final int INTAKE_RIGHT_RETRACT = -1;
+    // PCM IDs
+    public static final int INTAKE_LEFT_DEPLOY = 1;
+    public static final int INTAKE_LEFT_RETRACT = 2;
+    public static final int INTAKE_RIGHT_DEPLOY = 3;
+    public static final int INTAKE_RIGHT_RETRACT = 4;
 
-    
+
     /*
      * Test motors
      */
