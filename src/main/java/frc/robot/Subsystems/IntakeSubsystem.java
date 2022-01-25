@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final IMotorController m_intakeMotor = new VictorSPX(Constants.REDLINE_ID);
+    private final IMotorController m_intakeMotor = new VictorSPX(Constants.INTAKE_MOTOR);
 
     private IntakeDirection m_intakeDirection = IntakeDirection.STOP;
     private float m_motorSpeed = 1;
@@ -22,6 +22,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
 
+    }
+
+    @Override
+    public void periodic() {
+        
     }
 
     public void startIntake() {
@@ -38,19 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
         this.m_intakeMotor.set(ControlMode.PercentOutput, 0.0);
         this.m_intakeDirection = IntakeDirection.STOP;
     }
-
-    public void toggleArm() {
-        this.m_isArmRaised = !this.m_isArmRaised;
-
-        if (this.m_isArmRaised) {
-            this.m_leftSolenoid.set(Value.kReverse);
-            this.m_rightSolenoid.set(Value.kReverse);
-        } else {
-            this.m_leftSolenoid.set(Value.kForward);
-            this.m_rightSolenoid.set(Value.kForward);
-        }
-    }
-
+    
     public void setMotorSpeed(float speed) {
         this.m_motorSpeed = speed;
 
@@ -69,9 +62,16 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    @Override
-    public void periodic() {
-        
+    public void toggleArm() {
+        this.m_isArmRaised = !this.m_isArmRaised;
+
+        if (this.m_isArmRaised) {
+            this.m_leftSolenoid.set(Value.kReverse);
+            this.m_rightSolenoid.set(Value.kReverse);
+        } else {
+            this.m_leftSolenoid.set(Value.kForward);
+            this.m_rightSolenoid.set(Value.kForward);
+        }
     }
 
     public enum IntakeDirection {

@@ -55,6 +55,8 @@ public class Constants {
     public static final int INTAKE_LEFT_RETRACT = -1;
     public static final int INTAKE_RIGHT_DEPLOY = -1;
     public static final int INTAKE_RIGHT_RETRACT = -1;
+
+    
     /*
      * Test motors
      */
