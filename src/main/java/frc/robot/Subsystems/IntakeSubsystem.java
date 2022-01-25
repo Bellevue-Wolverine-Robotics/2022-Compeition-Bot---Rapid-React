@@ -21,7 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean m_isArmRaised = true;
 
     public IntakeSubsystem() {
-
+        stopIntake();
+        setArmPosition(true);
     }
 
     @Override
@@ -65,13 +66,14 @@ public class IntakeSubsystem extends SubsystemBase {
     public void toggleArm() {
         this.m_isArmRaised = !this.m_isArmRaised;
 
-        if (this.m_isArmRaised) {
-            this.m_leftSolenoid.set(Value.kReverse);
-            this.m_rightSolenoid.set(Value.kReverse);
-        } else {
-            this.m_leftSolenoid.set(Value.kForward);
-            this.m_rightSolenoid.set(Value.kForward);
-        }
+        setArmPosition(this.m_isArmRaised);
+    }
+
+    public void setArmPosition(boolean raiseArm) {
+        Value direction = raiseArm ? Value.kReverse : Value.kForward;
+
+        this.m_leftSolenoid.set(direction);
+        this.m_rightSolenoid.set(direction);
     }
 
     public enum IntakeDirection {
