@@ -37,8 +37,8 @@ public class Constants {
 
     // Motor or piston now dunno which
     public static final int HEAD_CONTROL_MOTOR = 9;
-    public static final int HEAD_CONTROL_PISTON_DEPLOY = 7;
-    public static final int HEAD_CONTROL_PISTON_RETRACT = 8;
+    public static final int HEAD_CONTROL_PISTON_DEPLOY = 6;
+    public static final int HEAD_CONTROL_PISTON_RETRACT = 7;
 
     // Input
     public static final int FLYWHEEL_BUTTON = 1;
@@ -52,8 +52,8 @@ public class Constants {
     public static final int LONG_ARM_PIVOT_MOTOR = 7;
 
     // PCM IDs
-    public static final int HOOKS_DEPLOY = 5;
-    public static final int HOOKS_RETRACT = 6;
+    public static final int HOOKS_DEPLOY = 4;
+    public static final int HOOKS_RETRACT = 5;
 
     // Input
     public static final int LONG_ARM_PIVOT_BUTTON = 5;
@@ -70,10 +70,10 @@ public class Constants {
     public static final int INTAKE_MOTOR = 5;
 
     // PCM IDs
-    public static final int INTAKE_LEFT_DEPLOY = 1;
-    public static final int INTAKE_LEFT_RETRACT = 2;
-    public static final int INTAKE_RIGHT_DEPLOY = 3;
-    public static final int INTAKE_RIGHT_RETRACT = 4;
+    public static final int INTAKE_LEFT_DEPLOY = 0;
+    public static final int INTAKE_LEFT_RETRACT = 1;
+    public static final int INTAKE_RIGHT_DEPLOY = 2;
+    public static final int INTAKE_RIGHT_RETRACT = 3;
 
     // Input
 	public static final int INTAKE_START_BUTTON = 11;
