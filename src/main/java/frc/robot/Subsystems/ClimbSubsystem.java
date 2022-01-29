@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    private IMotorController m_longArmExtendMotor = new VictorSPX(Constants.LONG_ARM_MOTOR_1);
+    private IMotorController m_longArmExtendMotor = new VictorSPX(Constants.LONG_ARM_EXTEND_MOTOR);
     private float m_longArmExtendMotorSpeed = 1;
 
-    private IMotorController m_longArmPivotMotor = new VictorSPX(Constants.LONG_ARM_MOTOR_2);
+    private IMotorController m_longArmPivotMotor = new VictorSPX(Constants.LONG_ARM_PIVOT_MOTOR);
     private float m_longArmPivotMotorSpeed = 1;
 
-    private DoubleSolenoid m_smallArmPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.SMALL_ARM_DEPLOY, Constants.SMALL_ARM_RETRACT);
+    private DoubleSolenoid m_smallArmPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_DEPLOY, Constants.HOOKS_RETRACT);
     private boolean m_areHooksRetracted = true;
 
     public ClimbSubsystem() {

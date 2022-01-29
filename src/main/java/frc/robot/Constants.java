@@ -2,26 +2,25 @@ package frc.robot;
 
 public class Constants {
     /*
-     * Input
+     * Joysticks
      */
 	public static final int JOYSTICK_1 = 0;
 	public static final int JOYSTICK_2 = 1;
 	public static final int JOYSTICK_3 = 2;
-
-	public static final int QUICKTURN_BUTTON = 1;
-	public static final int JOYSTICK_2_INTAKE_BUTTON = 1;
-
     
     /*
      * Drive
-     * All CAN IDs
      */
+    // CAN IDs
     public static final int LEFT_FRONT = 1;
     public static final int LEFT_BACK = 2;
     public static final int RIGHT_FRONT = 3;
     public static final int RIGHT_BACK = 4;
 
-        
+    // Inputs
+	public static final int QUICKTURN_BUTTON = 1;
+
+    // Calculations        
     public static final int WHEEL_SIZE = 6;
     public static final double GEAR_RATIO = 1 / 10.71;
     // Calculate the position factor by calculating the circumference of the wheel times the gear ratio
@@ -41,17 +40,27 @@ public class Constants {
     public static final int HEAD_CONTROL_PISTON_DEPLOY = 7;
     public static final int HEAD_CONTROL_PISTON_RETRACT = 8;
 
+    // Input
+    public static final int FLYWHEEL_BUTTON = 1;
+
 
     /*
      * Climb
      */
     // CAN IDs
-    public static final int LONG_ARM_MOTOR_1 = 6;
-    public static final int LONG_ARM_MOTOR_2 = 7;
+    public static final int LONG_ARM_EXTEND_MOTOR = 6;
+    public static final int LONG_ARM_PIVOT_MOTOR = 7;
 
     // PCM IDs
-    public static final int SMALL_ARM_DEPLOY = 5;
-    public static final int SMALL_ARM_RETRACT = 6;
+    public static final int HOOKS_DEPLOY = 5;
+    public static final int HOOKS_RETRACT = 6;
+
+    // Input
+    public static final int LONG_ARM_PIVOT_BUTTON = 5;
+    public static final int LONG_ARM_PIVOT_REVERSE_BUTTON = 3;
+    public static final int LONG_ARM_EXTEND_BUTTON = 6;
+    public static final int LONG_ARM_RETRACT_BUTTON = 4;
+    public static final int HOOKS_TOGGLE_BUTTON = 2;
 
 
     /*
@@ -65,6 +74,11 @@ public class Constants {
     public static final int INTAKE_LEFT_RETRACT = 2;
     public static final int INTAKE_RIGHT_DEPLOY = 3;
     public static final int INTAKE_RIGHT_RETRACT = 4;
+
+    // Input
+	public static final int INTAKE_START_BUTTON = 11;
+	public static final int INTAKE_REVERSE_BUTTON = 12;
+	public static final int INTAKE_TOGGLE_BUTTON = 9;
 
 
     /*

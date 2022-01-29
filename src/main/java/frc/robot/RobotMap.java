@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Commands.ArcadeDriveJoystickCommand;
-import frc.robot.Commands.IntakeStartCommand;
+import frc.robot.Commands.*;
 import frc.robot.Subsystems.*;
 
 /* Creates robot subsystems and commands, binds those commands to triggering 
@@ -18,18 +18,37 @@ public class RobotMap {
 
 	private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
 
-    private final ColorSensorSubsystem m_colorSensor = new ColorSensorSubsystem();
+    private final ClimbSubsystem m_climb = new ClimbSubsystem();
 
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
+    private final ColorSensorSubsystem m_colorSensor = new ColorSensorSubsystem();
+    
     public RobotMap() {
 		this.configureDefaultCommands();
 		this.configureButtonBindings();
 	}
 
     private void configureButtonBindings() {
-        JoystickButton test = new JoystickButton(m_joystick2, Constants.JOYSTICK_2_INTAKE_BUTTON);
-        test.whenPressed(new IntakeStartCommand(m_intake));
+        // Climb
+        Joystick climbJoystick = this.m_joystick3; // The joystick variables will make it easier to swap joysticks
+        assignActionToButtonPress(new ClimbArmExtendCommand(this.m_climb), Constants.LONG_ARM_EXTEND_BUTTON, climbJoystick);
+        assignActionToButtonPress(new ClimbArmRetractCommand(this.m_climb), Constants.LONG_ARM_RETRACT_BUTTON, climbJoystick);
+        assignActionToButtonPress(new ClimbArmPivotCommand(this.m_climb), Constants.LONG_ARM_PIVOT_BUTTON, climbJoystick);
+        assignActionToButtonPress(new ClimbArmPivotReverseCommand(this.m_climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, climbJoystick);
+        assignActionToButtonPress(new ClimbToggleHooksCommand(this.m_climb), Constants.HOOKS_TOGGLE_BUTTON, climbJoystick);
+
+        // Intake
+        Joystick intakeJoystick = this.m_joystick3;
+        assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+        assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
+    }
+
+    private JoystickButton assignActionToButtonPress(Command command, int buttonId, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonId);
+        button.whenPressed(command);
+        return button;
     }
 
     private void configureDefaultCommands() {
@@ -44,6 +63,14 @@ public class RobotMap {
 
     public DriveTrainSubsystem getDriveTrain() {
         return this.m_driveTrain;
+    }
+
+    public ClimbSubsystem getClimb() {
+        return this.m_climb;
+    }
+    
+    public IntakeSubsystem getIntake() {
+        return this.m_intake;
     }
 
     // public ADXRS450_Gyro getGyro() {
