@@ -11,9 +11,16 @@ public class IntakeStartCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        this.m_intakeSubsystem.startIntake();
+    }
+    
+    /*
+    @Override
     public void execute() {
         this.m_intakeSubsystem.startIntake();
     }
+    */
 
     @Override
     public void end(boolean interrupted) {
