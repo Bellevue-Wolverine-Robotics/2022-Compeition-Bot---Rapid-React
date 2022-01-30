@@ -84,6 +84,6 @@ public class Constants {
     /*
      * Test motors
      */
-    public static final int NEO_ID = 5;
-    public static final int REDLINE_ID = 6; // Test intake
+    // public static final int NEO_ID = 5;
+    // public static final int REDLINE_ID = 6; // Test intake
 }
