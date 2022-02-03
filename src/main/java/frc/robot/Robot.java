@@ -18,14 +18,16 @@ import frc.robot.Commands.ArcadeDriveDistanceCommand;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-
 	private RobotMap m_robotMap;
 
   private static final String DEFAULT_AUTO = "Default";
   private static final String CUSTOM_AUTO = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private Command m_autonomousCommand;
+  private boolean m_hasStartCurrentCommand = false;
+  private int m_autonomousStep = 1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -66,25 +68,40 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
+    this.m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (this.m_autonomousCommand == null) {
-      this.m_autonomousCommand = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 18, 0.3);
-      this.m_autonomousCommand.schedule();
-    }
-
     switch (m_autoSelected) {
+      // Ignoring this case for now
       case CUSTOM_AUTO:
-        // Put custom auto code here
         break;
       case DEFAULT_AUTO:
       default:
-        // Put default auto code here
+        switch (this.m_autonomousStep) {
+          case 1:
+            // check if the command is scheduled, if not then schedule it
+            if (!this.m_hasStartCurrentCommand) {
+              this.m_autonomousCommand = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 10, 0.3);
+              this.m_autonomousCommand.schedule();
+              
+              this.m_hasStartCurrentCommand = true;
+            } else if (this.m_autonomousCommand.isFinished()) {
+              // If it finished then move on
+              this.m_autonomousStep++;
+              this.m_hasStartCurrentCommand = false;
+            }
+            break;
+          case 2: 
+            System.out.println("WEEEEEEE");
+            break;
+          default:
+            System.out.println("Unknown Autonomous Step");
+            break;
+        }
         break;
     }
 
