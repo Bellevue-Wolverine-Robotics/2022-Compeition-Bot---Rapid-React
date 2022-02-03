@@ -30,29 +30,32 @@ public class RobotMap {
 	}
 
     private void configureButtonBindings() {
+        // Notice the difference between assignActionToButtonPress and assignActionToButtonHold
+
         // Climb
         Joystick climbJoystick = this.m_joystick3; // The joystick variables will make it easier to swap joysticks
-        assignActionToButtonPress(new ClimbArmExtendCommand(this.m_climb), Constants.LONG_ARM_EXTEND_BUTTON, climbJoystick);
-        assignActionToButtonPress(new ClimbArmRetractCommand(this.m_climb), Constants.LONG_ARM_RETRACT_BUTTON, climbJoystick);
-        assignActionToButtonPress(new ClimbArmPivotCommand(this.m_climb), Constants.LONG_ARM_PIVOT_BUTTON, climbJoystick);
-        assignActionToButtonPress(new ClimbArmPivotReverseCommand(this.m_climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, climbJoystick);
+        assignActionToButtonHold(new ClimbArmExtendCommand(this.m_climb), Constants.LONG_ARM_EXTEND_BUTTON, climbJoystick);
+        assignActionToButtonHold(new ClimbArmRetractCommand(this.m_climb), Constants.LONG_ARM_RETRACT_BUTTON, climbJoystick);
+        assignActionToButtonHold(new ClimbArmPivotCommand(this.m_climb), Constants.LONG_ARM_PIVOT_BUTTON, climbJoystick);
+        assignActionToButtonHold(new ClimbArmPivotReverseCommand(this.m_climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, climbJoystick);
         assignActionToButtonPress(new ClimbToggleHooksCommand(this.m_climb), Constants.HOOKS_TOGGLE_BUTTON, climbJoystick);
 
         // Intake
         Joystick intakeJoystick = this.m_joystick3;
-
-        //assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-        //Test separate button assignment
-        JoystickButton testIntakeStartButton = new JoystickButton(intakeJoystick, Constants.INTAKE_START_BUTTON);
-        testIntakeStartButton.whenHeld(new IntakeStartCommand(this.m_intake));
-        
-        assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        assignActionToButtonHold(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+        assignActionToButtonHold(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
         assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
     }
 
     private JoystickButton assignActionToButtonPress(Command command, int buttonId, Joystick joystick) {
         JoystickButton button = new JoystickButton(joystick, buttonId);
         button.whenPressed(command);
+        return button;
+    }
+
+    private JoystickButton assignActionToButtonHold(Command command, int buttonId, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonId);
+        button.whenHeld(command);
         return button;
     }
 
