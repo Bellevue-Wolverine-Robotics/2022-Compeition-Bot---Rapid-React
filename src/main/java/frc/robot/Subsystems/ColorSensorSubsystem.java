@@ -3,6 +3,7 @@ package frc.robot.Subsystems;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,19 +34,23 @@ public class ColorSensorSubsystem extends SubsystemBase {
         return this.m_colorMatcher.matchColor(this.getColor());
     }
 
-    public String getMatchColorName() {
+    public DriverStation.Alliance getMatchColorName() {
         ColorMatchResult result = this.getMatch();
         if (result == null) {
-            return "";
+            return DriverStation.Alliance.Invalid;
         }
         
         if (result.color == RED) {
-            return "red";
+            return DriverStation.Alliance.Red;
         } else if (result.color == BLUE) {
-            return "blue";
+            return DriverStation.Alliance.Blue;
         } else {
-            return "";
+            return DriverStation.Alliance.Invalid;
         }
+    }
+
+    public boolean isDetectedColorOurAlliance() {
+        return getMatchColorName() == DriverStation.getAlliance();
     }
 
     public Color getColor() {
