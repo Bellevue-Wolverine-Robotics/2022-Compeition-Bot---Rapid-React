@@ -26,7 +26,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
         this.m_startingPosition = this.m_driveTrainSubsystem.getLeftBackMotor().getEncoder().getPosition();
         
         // This is to make the command require the subsystem
-        addRequirements(driveTrainSubsystem);
+        addRequirements(this.m_driveTrainSubsystem);
     }
 
     @Override

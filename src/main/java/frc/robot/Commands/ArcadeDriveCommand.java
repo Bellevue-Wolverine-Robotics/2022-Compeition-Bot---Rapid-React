@@ -18,7 +18,7 @@ public class ArcadeDriveCommand extends InstantCommand {
         this.m_leftRight = leftRight;
 
         // This is to make the command require the subsystem
-        addRequirements(driveTrainSubsystem);
+        addRequirements(this.m_driveTrainSubsystem);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class ArcadeDriveJoystickCommand extends CommandBase {
         this.m_joystick1 = Joystick1;
 
         // This is to make the command require the subsystem
-        addRequirements(driveTrainSubsystem);
+        addRequirements(this.m_driveTrainSubsystem);
     }
 
     @Override
