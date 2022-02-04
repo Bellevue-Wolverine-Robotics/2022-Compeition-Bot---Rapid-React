@@ -14,7 +14,7 @@ public class RobotMap {
 	private final Joystick m_joystick2 = new Joystick(Constants.JOYSTICK_2);
 	private final Joystick m_joystick3 = new Joystick(Constants.JOYSTICK_3);
 
-    //private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+    private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
 	private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
 
@@ -66,7 +66,7 @@ public class RobotMap {
     }
 
     public void onDisable() {
-        //this.m_gyro.calibrate();
+        this.m_gyro.calibrate();
 	}
 
     public DriveTrainSubsystem getDriveTrain() {
@@ -81,9 +81,9 @@ public class RobotMap {
         return this.m_intake;
     }
 
-    // public ADXRS450_Gyro getGyro() {
-    //     return this.m_gyro;
-    // }
+    public ADXRS450_Gyro getGyro() {
+        return this.m_gyro;
+    }
 
     public ColorSensorSubsystem getColorSensor() {
         return this.m_colorSensor;
