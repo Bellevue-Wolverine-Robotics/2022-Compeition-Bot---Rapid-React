@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -13,6 +14,9 @@ public class RobotMap {
     private final Joystick m_joystick1 = new Joystick(Constants.JOYSTICK_1);
 	private final Joystick m_joystick2 = new Joystick(Constants.JOYSTICK_2);
 	private final Joystick m_joystick3 = new Joystick(Constants.JOYSTICK_3);
+
+    // yes the class name is weird, the docs say it's a misnomer
+    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
@@ -87,5 +91,9 @@ public class RobotMap {
 
     public ColorSensorSubsystem getColorSensor() {
         return this.m_colorSensor;
+    }
+
+    public AnalogPotentiometer getUltrasonicSensor() {
+        return this.m_ultrasonicSensor;
     }
 }
