@@ -52,8 +52,10 @@ public class Constants {
     public static final int LONG_ARM_PIVOT_MOTOR = 7;
 
     // PCM IDs
-    public static final int HOOKS_DEPLOY = 4;
-    public static final int HOOKS_RETRACT = 5;
+    public static final int HOOKS_1_DEPLOY = 4;
+    public static final int HOOKS_1_RETRACT = 5;
+    public static final int HOOKS_2_DEPLOY = 6;
+    public static final int HOOKS_2_RETRACT = 7;
 
     // Input
     public static final int LONG_ARM_PIVOT_BUTTON = 5;
