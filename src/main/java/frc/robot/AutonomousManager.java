@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.ArcadeDriveDistanceCommand;
+import frc.robot.Commands.IntakeReverseCommand;
 
 public class AutonomousManager {
     private RobotMap m_robotMap;
@@ -13,36 +14,42 @@ public class AutonomousManager {
     private boolean m_isRunningCommand = false;
     private int m_step = 1;
 
-    private Command step1Command;
+    private Command m_step1Command;
+    private Command m_step2Command;
+    private Command m_step3Command;
 
     public AutonomousManager(RobotMap robotMap) {
         this.m_robotMap = robotMap;
     }
 
     public void autonomousInit() {
-        this.step1Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 18, 0.3);
+        // Init commands/auto here
+        
+        // Move forward till it's close
+        //this.m_step1Command = new ArcadeDriveUntilClose(this.m_robotMap.getDriveTrain(), 18, 0.3);
+        
+        // Spit out ball from hopper system to score // withTimeout simply specifies how long the command should run (because it runs forever by default)
+        this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(1);
+        
+        // Drive backwards a bunch to get off tarmac
+        this.m_step3Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -1);
     }
 
     public void autonomousPeriodic() {
         switch (this.m_step) {
             case 1:
-                doStep(step1Command);
+                doStep(m_step1Command);
                 break;
             case 2: 
-                if (m_switch1.get()) {
-                    System.out.println("Switch is on");
-                } else {
-                    System.out.println("Switch is off");
-                }
+                doStep(m_step2Command);
+                break;
+            case 3:
+                doStep(m_step3Command);
                 break;
             default:
                 System.out.println("Unknown Autonomous Step");
                 break;
         }
-  
-        // if (this.m_autonomousCommand != null) {
-        // 	this.m_autonomousCommand.schedule();
-        // }
     }
 
     private void doStep(Command nextCommand) {
