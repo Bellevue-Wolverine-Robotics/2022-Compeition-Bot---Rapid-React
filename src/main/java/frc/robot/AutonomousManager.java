@@ -11,7 +11,6 @@ public class AutonomousManager {
     private DigitalInput m_switch1 = new DigitalInput(0);
 
     private Command m_currentCommand;
-    private boolean m_isRunningCommand = false;
     private int m_step = 1;
 
     private Command m_step1Command;
@@ -25,26 +24,29 @@ public class AutonomousManager {
     public void autonomousInit() {
         // Init commands/auto here
         
-        // Move forward till it's close
-        //this.m_step1Command = new ArcadeDriveUntilClose(this.m_robotMap.getDriveTrain(), 18, 0.3);
+        // Move forward till it's close 
+        // This ArcadeDriveDistanceCommand is just here for debugging purposes, 
+        // it will be replaced with a command the makes the robot move until close to something later
+        this.m_step1Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, 0.3);
         
         // Spit out ball from hopper system to score // withTimeout simply specifies how long the command should run (because it runs forever by default)
         this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(1);
         
         // Drive backwards a bunch to get off tarmac
         this.m_step3Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -1);
+
+        // Actually start the autonomous
+        this.m_currentCommand = this.m_step1Command;
+        this.m_currentCommand.schedule();
     }
 
     public void autonomousPeriodic() {
         switch (this.m_step) {
             case 1:
-                doStep(m_step1Command);
+                waitForNextStep(m_step2Command);
                 break;
             case 2: 
-                doStep(m_step2Command);
-                break;
-            case 3:
-                doStep(m_step3Command);
+                waitForNextStep(m_step3Command);
                 break;
             default:
                 System.out.println("Unknown Autonomous Step");
@@ -52,19 +54,13 @@ public class AutonomousManager {
         }
     }
 
-    private void doStep(Command nextCommand) {
-        // check if the command is not running, if not then schedule it
-        if (!this.m_isRunningCommand) {
-            System.out.println("Starting auto step: " + this.m_step);
+    private void waitForNextStep(Command nextCommand) {
+        // check if the current command isFinished, if it is, then move onto next step
+        if (this.m_currentCommand.isFinished()) {
+            this.m_step++;
+
             this.m_currentCommand = nextCommand;
             this.m_currentCommand.schedule();
-            
-            this.m_isRunningCommand = true;
-        } else if (this.m_currentCommand.isFinished()) {
-            // If it finished then move on
-            this.m_step++;
-            this.m_isRunningCommand = false;
-
             System.out.println("Moving to auto step: " + this.m_step);
         }
     }
