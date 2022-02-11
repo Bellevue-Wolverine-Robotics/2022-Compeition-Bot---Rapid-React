@@ -63,7 +63,9 @@ public class AutonomousManager {
     }
 
     public void cancelCommands() {
-        this.m_currentCommand.cancel();
+        if (this.m_currentCommand != null) {
+            this.m_currentCommand.cancel();
+        }
         this.m_step = 0;
     }
 }
