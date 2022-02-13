@@ -27,17 +27,18 @@ public class AutonomousManager {
         // Move forward till it's close 
         // This ArcadeDriveDistanceCommand is just here for debugging purposes, 
         // it will be replaced with a command the makes the robot move until close to something later
-        this.m_step1Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, 0.3);
+        this.m_step1Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, 0.5);
         
         // Spit out ball from hopper system to score // withTimeout simply specifies how long the command should run (because it runs forever by default)
-        this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(1);
+        this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(5);
         
         // Drive backwards a bunch to get off tarmac
-        this.m_step3Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -1);
+        this.m_step3Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -0.5);
 
         // Actually start the autonomous
         this.m_currentCommand = this.m_step1Command;
         this.m_currentCommand.schedule();
+        this.m_step = 1;
     }
 
     public void autonomousPeriodic() {
@@ -49,14 +50,14 @@ public class AutonomousManager {
                 waitForNextStep(m_step3Command);
                 break;
             default:
-                System.out.println("Unknown Autonomous Step");
+                //System.out.println("Unknown Autonomous Step");
                 break;
         }
     }
 
     private void waitForNextStep(Command nextCommand) {
         // check if the current command isFinished, if it is, then move onto next step
-        if (this.m_currentCommand.isFinished()) {
+        if (this.m_currentCommand.isFinished() || !this.m_currentCommand.isScheduled()) {
             this.m_step++;
 
             this.m_currentCommand = nextCommand;
