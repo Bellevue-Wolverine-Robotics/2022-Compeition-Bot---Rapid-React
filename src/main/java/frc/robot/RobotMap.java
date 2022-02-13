@@ -50,11 +50,11 @@ public class RobotMap {
 
         // Add start to press and stop to raise
         assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-        assignActionToButtonRelease(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
 
         // Do the same for reverse command
         assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
-        assignActionToButtonRelease(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
         
         assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
     }
