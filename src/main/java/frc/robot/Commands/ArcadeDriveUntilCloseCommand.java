@@ -22,7 +22,7 @@ public class ArcadeDriveUntilCloseCommand extends CommandBase {
 
     @Override
     public void execute() {
-        new ArcadeDriveCommand(this.m_robotMap.getDriveTrain(), this.m_speed, 0).execute();
+        this.m_robotMap.getDriveTrain().arcadeDrive(this.m_speed, 0);
     }
 
     @Override
