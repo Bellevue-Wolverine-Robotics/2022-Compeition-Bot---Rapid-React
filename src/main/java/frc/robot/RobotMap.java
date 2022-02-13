@@ -17,7 +17,7 @@ public class RobotMap {
 
     // yes the class name is weird, the docs say it's a misnomer
     // Also put this at least a ft away from the front bumper, also leave it 1-2ft above the ground
-    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.MILLIMETERS_PER_5V);
+    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.INCHES_PER_5V);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 

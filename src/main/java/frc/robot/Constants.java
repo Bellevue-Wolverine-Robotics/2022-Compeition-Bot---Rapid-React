@@ -32,7 +32,8 @@ public class Constants {
     // And we know that the max distance is 5,000mm we can just set up a proportion
     // 5000/x = 300/293
     // x = 1,500,000 / 293
-    public static final double MILLIMETERS_PER_5V = 1_500_000 / 293;
+    // Now we convert this to inches by multiplying by 0.0393701
+    public static final double INCHES_PER_5V = (1_500_000 / 293) * 0.0393701;
 
 
     // All ID's beyond this point are assumptions, except the test motors.
