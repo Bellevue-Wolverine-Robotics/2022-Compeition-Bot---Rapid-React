@@ -27,7 +27,14 @@ public class Constants {
     // From https://dev.revrobotics.com/sparkmax/software-resources/migrating-ctre-to-rev#change-units-from-rotations-to-inches
     public static final double POSITION_FACTOR = Math.PI * WHEEL_SIZE * GEAR_RATIO;
 
-    
+    // Calculate the ultrasonic's scale
+    // Basically there is 293mV per 300mm from the ultrasonic
+    // And we know that the max distance is 5,000mm we can just set up a proportion
+    // 5000/x = 300/293
+    // x = 1,500,000 / 293
+    public static final double MILLIMETERS_PER_5V = 1_500_000 / 293;
+
+
     // All ID's beyond this point are assumptions, except the test motors.
     /*
      * Shooter

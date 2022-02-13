@@ -16,7 +16,8 @@ public class RobotMap {
 	private final Joystick m_joystick3 = new Joystick(Constants.JOYSTICK_3);
 
     // yes the class name is weird, the docs say it's a misnomer
-    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0);
+    // Also put this at least a ft away from the front bumper, also leave it 1-2ft above the ground
+    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.MILLIMETERS_PER_5V);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
