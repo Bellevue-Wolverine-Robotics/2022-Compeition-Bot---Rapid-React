@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Commands.*;
-import frc.robot.Subsystems.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /* Creates robot subsystems and commands, binds those commands to triggering 
     events (such as buttons), and specify which commands will run in autonomous. */

@@ -1,7 +1,7 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.ClimbSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbArmRetractCommand extends CommandBase {
     private ClimbSubsystem m_climbSubsystem;

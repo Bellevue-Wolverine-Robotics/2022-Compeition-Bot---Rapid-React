@@ -1,7 +1,7 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class ArcadeDriveDistanceCommand extends CommandBase {
 

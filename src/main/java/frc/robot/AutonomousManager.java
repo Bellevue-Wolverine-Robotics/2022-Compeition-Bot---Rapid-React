@@ -2,8 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.ArcadeDriveDistanceCommand;
-import frc.robot.Commands.IntakeReverseCommand;
+import frc.robot.commands.ArcadeDriveDistanceCommand;
+import frc.robot.commands.IntakeReverseCommand;
 
 public class AutonomousManager {
     private RobotMap m_robotMap;

@@ -1,7 +1,7 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeReverseCommand extends CommandBase {
     private IntakeSubsystem m_intakeSubsystem;
