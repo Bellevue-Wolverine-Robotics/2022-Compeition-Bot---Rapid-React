@@ -47,14 +47,27 @@ public class RobotMap {
 
         // Intake
         Joystick intakeJoystick = this.m_joystick3;
-        assignActionToButtonHold(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-        assignActionToButtonHold(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+
+        // Add start to press and stop to raise
+        assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+
+        // Do the same for reverse command
+        assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        
         assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
     }
 
     private JoystickButton assignActionToButtonPress(Command command, int buttonId, Joystick joystick) {
         JoystickButton button = new JoystickButton(joystick, buttonId);
         button.whenPressed(command);
+        return button;
+    }
+
+    private JoystickButton assignActionToButtonRelease(Command command, int buttonID, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonID);
+        button.whenReleased(command);
         return button;
     }
 
