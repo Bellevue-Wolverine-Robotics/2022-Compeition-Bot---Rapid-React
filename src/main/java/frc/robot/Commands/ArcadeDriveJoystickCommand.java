@@ -26,6 +26,6 @@ public class ArcadeDriveJoystickCommand extends CommandBase {
         // Confusing I know. Left is negative, right is positive on the axis
         double leftRight = this.m_joystick1.getX();
 
-        new ArcadeDriveCommand(this.m_driveTrainSubsystem, forwardBack, leftRight).execute();
+        this.m_driveTrainSubsystem.arcadeDrive(forwardBack, leftRight);
     }
 } 
