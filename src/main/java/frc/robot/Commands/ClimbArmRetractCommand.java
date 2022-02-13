@@ -8,6 +8,8 @@ public class ClimbArmRetractCommand extends CommandBase {
 
     public ClimbArmRetractCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;
+
+        this.addRequirements(this.m_climbSubsystem);
     }
 
     @Override

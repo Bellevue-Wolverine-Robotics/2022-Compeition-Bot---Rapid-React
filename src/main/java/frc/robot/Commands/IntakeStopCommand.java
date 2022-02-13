@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeStartCommand extends InstantCommand {
+public class IntakeStopCommand extends InstantCommand {
     private IntakeSubsystem m_intakeSubsystem;
 
-    public IntakeStartCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeStopCommand(IntakeSubsystem intakeSubsystem) {
         this.m_intakeSubsystem = intakeSubsystem;
 
         this.addRequirements(this.m_intakeSubsystem);
@@ -14,13 +14,6 @@ public class IntakeStartCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        this.m_intakeSubsystem.startIntake();
+        this.m_intakeSubsystem.stopIntake();
     }
-    
-    /*
-    @Override
-    public void execute() {
-        this.m_intakeSubsystem.startIntake();
-    }
-    */
 }

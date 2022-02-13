@@ -8,6 +8,8 @@ public class ClimbToggleHooksCommand extends InstantCommand {
 
     public ClimbToggleHooksCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;
+
+        this.addRequirements(this.m_climbSubsystem);
     }
 
     @Override
