@@ -1,8 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.ArcadeDriveUntilCloseCommand;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArcadeDriveDistanceCommand;
 import frc.robot.commands.IntakeReverseCommand;
 
@@ -11,12 +11,9 @@ public class AutonomousManager {
 
     private DigitalInput m_switch1 = new DigitalInput(0);
 
-    private Command m_currentCommand;
-    private int m_step = 1;
+    private boolean m_areWeDoingOneBallAuto = true;
 
-    private Command m_step1Command;
-    private Command m_step2Command;
-    private Command m_step3Command;
+    private CommandGroupBase m_currentCommands;
 
     public AutonomousManager(RobotMap robotMap) {
         this.m_robotMap = robotMap;
@@ -25,50 +22,37 @@ public class AutonomousManager {
     public void autonomousInit() {
         // Init commands/auto here
         
-        // Move forward till it's close 
-        this.m_step1Command = new ArcadeDriveUntilCloseCommand(this.m_robotMap, 300, 0.7);
-        
-        // Spit out ball from hopper system to score // withTimeout simply specifies how long the command should run (because it runs forever by default)
-        this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(5);
-        
-        // Drive backwards a bunch to get off tarmac
-        this.m_step3Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -0.5);
+        // Please read about command groups (https://docs.wpilib.org/en/stable/docs/software/commandbased/command-groups.html)
+        // to understand how the plans are being made
 
-        // Actually start the autonomous
-        this.m_currentCommand = this.m_step1Command;
-        this.m_currentCommand.schedule();
-        this.m_step = 1;
+        // This if statement can be change (actually please change it) once we know
+        // more about how we're going to control the different auto plans
+        if (this.m_areWeDoingOneBallAuto) {
+            // 1 ball auto
+            SequentialCommandGroup oneBallAuto = new SequentialCommandGroup(
+                // Since we start just outside of lower hopper, just spit out ball
+                // withTimeout simply specifies how long the command should run (because it runs forever by default)
+                new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(5),
+                
+                // Drive backwards a bunch to get off tarmac
+                new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, -0.5)
+            );
+            this.m_currentCommands = oneBallAuto;
+        } else {
+            // 2 ball auto
+        }
+
+        // Start plan
+        this.m_currentCommands.schedule();
     }
 
     public void autonomousPeriodic() {
-        switch (this.m_step) {
-            case 1:
-                waitForNextStep(m_step2Command);
-                break;
-            case 2: 
-                waitForNextStep(m_step3Command);
-                break;
-            default:
-                //System.out.println("Unknown Autonomous Step");
-                break;
-        }
-    }
 
-    private void waitForNextStep(Command nextCommand) {
-        // check if the current command isFinished, if it is, then move onto next step
-        if (this.m_currentCommand.isFinished() || !this.m_currentCommand.isScheduled()) {
-            this.m_step++;
-
-            this.m_currentCommand = nextCommand;
-            this.m_currentCommand.schedule();
-            System.out.println("Moving to auto step: " + this.m_step);
-        }
     }
 
     public void cancelCommands() {
-        if (this.m_currentCommand != null) {
-            this.m_currentCommand.cancel();
+        if (this.m_currentCommands != null) {
+            this.m_currentCommands.cancel();
         }
-        this.m_step = 0;
     }
 }
