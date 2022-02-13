@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -28,6 +29,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
         this.m_leftBackMotor.getEncoder().setPosition(0);
         this.m_rightFrontMotor.getEncoder().setPosition(0);
         this.m_rightBackMotor.getEncoder().setPosition(0);
+
+        this.m_leftFrontMotor.setIdleMode(IdleMode.kBrake);
+        this.m_leftBackMotor.setIdleMode(IdleMode.kBrake);
+        this.m_rightFrontMotor.setIdleMode(IdleMode.kBrake);
+        this.m_rightBackMotor.setIdleMode(IdleMode.kBrake);
 
         // Because these motors are facing the other direction
         this.m_rightControllerGroup.setInverted(true);
