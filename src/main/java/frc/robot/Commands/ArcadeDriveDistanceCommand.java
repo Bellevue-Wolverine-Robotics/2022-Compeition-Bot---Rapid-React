@@ -9,7 +9,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
 
     private final double m_forwardBackInchesDistance;
     private final ArcadeDriveCommand m_moveCommand;
-    private final double m_startingPosition;
+    private double m_startingPosition;
 
     private boolean m_isFinished = false;
 
@@ -23,10 +23,14 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
         }
         
         this.m_moveCommand = new ArcadeDriveCommand(this.m_driveTrainSubsystem, speed, 0);
-        this.m_startingPosition = this.m_driveTrainSubsystem.getLeftBackMotor().getEncoder().getPosition();
         
         // This is to make the command require the subsystem
         addRequirements(this.m_driveTrainSubsystem);
+    }
+
+    @Override
+    public void initialize() {
+        this.m_startingPosition = this.m_driveTrainSubsystem.getLeftBackMotor().getEncoder().getPosition();
     }
 
     @Override
