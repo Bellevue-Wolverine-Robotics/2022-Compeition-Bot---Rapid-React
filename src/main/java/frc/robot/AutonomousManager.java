@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ArcadeDriveUntilCloseCommand;
 import frc.robot.commands.ArcadeDriveDistanceCommand;
 import frc.robot.commands.IntakeReverseCommand;
 
@@ -25,9 +26,7 @@ public class AutonomousManager {
         // Init commands/auto here
         
         // Move forward till it's close 
-        // This ArcadeDriveDistanceCommand is just here for debugging purposes, 
-        // it will be replaced with a command the makes the robot move until close to something later
-        this.m_step1Command = new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 72, 0.5);
+        this.m_step1Command = new ArcadeDriveUntilCloseCommand(this.m_robotMap, 300, 0.7);
         
         // Spit out ball from hopper system to score // withTimeout simply specifies how long the command should run (because it runs forever by default)
         this.m_step2Command = new IntakeReverseCommand(this.m_robotMap.getIntake()).withTimeout(5);
