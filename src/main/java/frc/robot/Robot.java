@@ -26,6 +26,18 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         CameraServer.startAutomaticCapture();
 
+        CommandScheduler.getInstance().onCommandInitialize((command) -> {
+            System.out.println(command.getName() + " intialized.");
+        });
+
+        CommandScheduler.getInstance().onCommandFinish((command) -> {
+            System.out.println(command.getName() + " finished.");
+        });
+
+        CommandScheduler.getInstance().onCommandInterrupt((command) -> {
+            System.out.println(command.getName() + " interrupted.");
+        });
+
         this.m_robotMap = new RobotMap(); 
 
         this.m_autonomousManager = new AutonomousManager(this.m_robotMap);
