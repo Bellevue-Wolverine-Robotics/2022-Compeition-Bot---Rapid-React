@@ -36,22 +36,6 @@ public class Constants {
     public static final double INCHES_PER_5V = (1_500_000 / 293) * 0.0393701;
 
 
-    // All ID's beyond this point are assumptions, except the test motors.
-    /*
-     * Shooter
-     */
-    // CAN IDs
-    public static final int SHOOTER_MOTOR = 8;
-
-    // Motor or piston now dunno which
-    public static final int HEAD_CONTROL_MOTOR = 9;
-    public static final int HEAD_CONTROL_PISTON_DEPLOY = 6;
-    public static final int HEAD_CONTROL_PISTON_RETRACT = 7;
-
-    // Input
-    public static final int FLYWHEEL_BUTTON = 1;
-
-
     /*
      * Climb
      */
@@ -89,11 +73,4 @@ public class Constants {
 	public static final int INTAKE_START_BUTTON = 11;
 	public static final int INTAKE_REVERSE_BUTTON = 12;
 	public static final int INTAKE_TOGGLE_BUTTON = 9;
-
-
-    /*
-     * Test motors
-     */
-    // public static final int NEO_ID = 5;
-    // public static final int REDLINE_ID = 6; // Test intake
 }
