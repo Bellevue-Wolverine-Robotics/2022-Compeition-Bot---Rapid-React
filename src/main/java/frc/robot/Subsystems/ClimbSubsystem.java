@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -11,27 +11,21 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
-
-
 public class ClimbSubsystem extends SubsystemBase {
-    private final IMotorController m_longArmExtendMotor = new TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private float m_longArmPivotMotor = new CANSparkMax(Constants.LONG_ARM_PIVOT_MOTOR, MotorType.kBrushless);
-    private float m_longArmPivotMotorSpeed = 0.3f;
+    private final IMotorController m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
+    private final float m_longArmExtendMotorSpeed = 0.3f;
+    
+    private final CANSparkMax m_longArmPivotMotor = new CANSparkMax(Constants.LONG_ARM_PIVOT_MOTOR, MotorType.kBrushless);
+    private final float m_longArmPivotMotorSpeed = 0.3f;
 
-    private CANSpark
-    private DoubleSolenoid m_smallArmPiston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_1_DEPLOY, Constants.HOOKS_1_RETRACT);
-    private DoubleSolenoid m_smallArmPiston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_2_DEPLOY, Constants.HOOKS_2_RETRACT);
+    private final DoubleSolenoid m_smallArmPiston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_1_DEPLOY, Constants.HOOKS_1_RETRACT);
+    private final DoubleSolenoid m_smallArmPiston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_2_DEPLOY, Constants.HOOKS_2_RETRACT);
     private boolean m_areHooksRetracted = true;
 
     public ClimbSubsystem() {
         setHookPosition(true);
-        this.m_longArmExtendMotor.configFactoryDefault();
         this.m_longArmPivotMotor.restoreFactoryDefaults();
-        
         this.m_longArmPivotMotor.getEncoder().setPosition(0);
-
-
     }
 
     @Override 
