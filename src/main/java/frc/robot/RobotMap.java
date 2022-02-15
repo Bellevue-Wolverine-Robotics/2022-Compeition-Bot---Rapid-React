@@ -27,8 +27,6 @@ public class RobotMap {
 
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
-    private final ColorSensorSubsystem m_colorSensor = new ColorSensorSubsystem();
-    
     public RobotMap() {
 		this.configureDefaultCommands();
 		this.configureButtonBindings();
@@ -101,10 +99,6 @@ public class RobotMap {
 
     public ADXRS450_Gyro getGyro() {
         return this.m_gyro;
-    }
-
-    public ColorSensorSubsystem getColorSensor() {
-        return this.m_colorSensor;
     }
 
     public AnalogPotentiometer getUltrasonicSensor() {
