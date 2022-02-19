@@ -74,7 +74,8 @@ public class AutonomousManager {
                     // This withInterrupt() call will stop the parallel command group when
                     // this lambda returns true
 
-                    return true; // Replace this with something that will tell when the intake motor has slowed
+                    // Stop the command once we've intaked the ball
+                    return this.m_robotMap.getIntake().hasIntakedBall();
                 }),
 
                 // Drive 2 more inches then turn around 170 degrees
