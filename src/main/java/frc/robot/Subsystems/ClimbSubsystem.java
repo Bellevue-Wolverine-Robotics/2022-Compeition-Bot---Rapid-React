@@ -1,9 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -12,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    private final IMotorController m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private final float m_longArmExtendMotorSpeed = 0.3f;
+    private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
+    private final float m_longArmExtendMotorSpeed = 0.1f;
     
     private final CANSparkMax m_longArmPivotMotor = new CANSparkMax(Constants.LONG_ARM_PIVOT_MOTOR, MotorType.kBrushless);
-    private final float m_longArmPivotMotorSpeed = 0.3f;
+    private final float m_longArmPivotMotorSpeed = 0.1f;
 
     private final DoubleSolenoid m_smallArmPiston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_1_DEPLOY, Constants.HOOKS_1_RETRACT);
     private final DoubleSolenoid m_smallArmPiston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_2_DEPLOY, Constants.HOOKS_2_RETRACT);
@@ -24,37 +25,114 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public ClimbSubsystem() {
         setHookPosition(true);
+
+        this.m_longArmExtendMotor.setSelectedSensorPosition(0);
+        this.m_longArmExtendMotor.setNeutralMode(NeutralMode.Brake);
+
         this.m_longArmPivotMotor.restoreFactoryDefaults();
         this.m_longArmPivotMotor.getEncoder().setPosition(0);
+        this.m_longArmPivotMotor.getEncoder().setPositionConversionFactor(Constants.ARM_PIVOT_POSITION_FACTOR);
+        this.m_longArmPivotMotor.setIdleMode(IdleMode.kBrake);
     }
 
     @Override 
     public void periodic() {
+        // Ensure that the arm can extend/retract if the motors are currently extending or retracting
+        switch ((int)this.m_longArmExtendMotor.get()) {
+            case 1:
+                if (!this.canArmExtend()) {
+                    stopArm();
+                }
+                break;
+            case -1:
+                if (!this.canArmRetract()) {
+                    stopArm();
+                }
+                break;
+            default:
+                break;
+        }
 
+        // Ensure that the arm can pivot in both directions if the motors are currently running
+        switch ((int)this.m_longArmPivotMotor.get()) {
+            case 1:
+                if (!this.canArmPivot()) {
+                    this.pivotArmStop();
+                }
+                break;
+            case -1:
+                if (!this.canArmPivotReverse()) {
+                    this.pivotArmStop();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void extendArm() {
-        this.m_longArmExtendMotor.set(ControlMode.PercentOutput, this.m_longArmExtendMotorSpeed);
+        if (this.canArmExtend()) {
+            this.m_longArmExtendMotor.set(ControlMode.PercentOutput, this.m_longArmExtendMotorSpeed);
+        } else {
+            this.stopArm();
+        }
     }
 
     public void retractArm() {
-        this.m_longArmExtendMotor.set(ControlMode.PercentOutput, -this.m_longArmExtendMotorSpeed);
+        if (this.canArmRetract()) {
+            this.m_longArmExtendMotor.set(ControlMode.PercentOutput, -this.m_longArmExtendMotorSpeed);
+        } else {
+            this.stopArm();
+        }
     }
 
     public void stopArm() {
         this.m_longArmExtendMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
+    public boolean canArmExtend() {
+        return this.getArmExtendDistance() + Constants.ARM_EXTENSION_DEADZONE <= Constants.MAX_ARM_EXTENSION;
+    }
+
+    public boolean canArmRetract() {
+        return this.getArmExtendDistance() - Constants.ARM_EXTENSION_DEADZONE >= 0;
+    }
+
+    public double getArmExtendDistance() {
+        // Divide by 1024 because CTRE uses 0-4096 as a full rotation
+        return this.m_longArmExtendMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096;
+    }
+
     public void pivotArm() {
-        this.m_longArmPivotMotor.set(this.m_longArmPivotMotorSpeed);
+        if (this.canArmPivot()) {
+            this.m_longArmPivotMotor.set(this.m_longArmPivotMotorSpeed);
+        } else {
+            this.pivotArmStop();
+        }
     }
 
     public void pivotArmReverse() {
-        this.m_longArmPivotMotor.set(-this.m_longArmPivotMotorSpeed);
+        if (this.canArmPivotReverse()) {
+            this.m_longArmPivotMotor.set(-this.m_longArmPivotMotorSpeed);
+        } else {
+            this.pivotArmStop();
+        }
     }
 
     public void pivotArmStop() {
         this.m_longArmPivotMotor.set(0.0);
+    }
+
+    public boolean canArmPivot() {
+        return this.getArmPivotPosition() + Constants.ARM_PIVOT_DEADZONE <= Constants.MAX_ARM_PIVOT;
+    }
+
+    public boolean canArmPivotReverse() {
+        return this.getArmPivotPosition() - Constants.ARM_PIVOT_DEADZONE >= 0;
+    }
+
+    public double getArmPivotPosition() {
+        return this.m_longArmPivotMotor.getEncoder().getPosition();
     }
 
     public void toggleHooks() {

@@ -56,6 +56,15 @@ public class Constants {
     public static final int LONG_ARM_RETRACT_BUTTON = 4;
     public static final int HOOKS_TOGGLE_BUTTON = 2;
 
+    // Calculations
+    public static final int MAX_ARM_EXTENSION = 40;
+    public static final int ARM_EXTENSION_DEADZONE = 10; // This is in inches
+    public static final double ARM_EXTEND_POSITION_FACTOR = 5;
+
+    public static final int MAX_ARM_PIVOT = 270;
+    public static final int ARM_PIVOT_DEADZONE = 10; // This is in degrees
+    public static final double ARM_PIVOT_POSITION_FACTOR = 10;
+
 
     /*
      * Intake
