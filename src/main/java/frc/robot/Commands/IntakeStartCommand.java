@@ -16,11 +16,4 @@ public class IntakeStartCommand extends InstantCommand {
     public void execute() {
         this.m_intakeSubsystem.startIntake();
     }
-    
-    /*
-    @Override
-    public void execute() {
-        this.m_intakeSubsystem.startIntake();
-    }
-    */
 }
