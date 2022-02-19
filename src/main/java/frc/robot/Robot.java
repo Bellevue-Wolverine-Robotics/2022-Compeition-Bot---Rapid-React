@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,6 +42,15 @@ public class Robot extends TimedRobot {
         this.m_robotMap = new RobotMap(); 
 
         this.m_autonomousManager = new AutonomousManager(this.m_robotMap);
+
+        // Temp vars for auto
+        SmartDashboard.putNumber("motorSpeed", 0.3);                            // This is in percent
+        SmartDashboard.putNumber("intakeReverseTimeToScore", 2);                // This is in seconds
+        SmartDashboard.putNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
+        SmartDashboard.putNumber("turnAroundAngle", 171);                       // This is in degrees
+        SmartDashboard.putNumber("distanceFromHubToScore", 10);                 // This is in inches
+        SmartDashboard.putNumber("reverseAfterFinished", 141);                  // This is in inches
+        SmartDashboard.putNumber("turnAroundAfterScoreAngle", 180);             // This is in degrees
     }
 
     /**

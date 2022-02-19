@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -32,13 +33,13 @@ public class AutonomousManager {
         // Define variables up here so we can change them easily
         // Motor speed drop will be controlled in IntakeSubsystem
         
-        double motorSpeed = 0.3;                                     // This is in percent
-        double intakeReverseTimeToScore = 2;                    // This is in seconds
-        double distanceToDriveAfterIntakeMotorSpeedDrop = 2;    // This is in inches
-        double turnAroundAngle = 10;                           // This is in degrees
-        double distanceFromHubToScore = 12;                    // This is in inches
-        double reverseAfterFinished = 114;                      // This is in inches
-        double turnAroundAfterScoreAngle = 10;
+        double motorSpeed = SmartDashboard.getNumber("motorSpeed", 0.3);                                                          // This is in percent
+        double intakeReverseTimeToScore = SmartDashboard.getNumber("intakeReverseTimeToScore", 2);                                // This is in seconds
+        double distanceToDriveAfterIntakeMotorSpeedDrop = SmartDashboard.getNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
+        double turnAroundAngle = SmartDashboard.getNumber("turnAroundAngle", 171);                                                // This is in degrees
+        double distanceFromHubToScore = SmartDashboard.getNumber("distanceFromHubToScore", 12);                                   // This is in inches
+        double reverseAfterFinished = SmartDashboard.getNumber("reverseAfterFinished", 141);                                      // This is in inches
+        double turnAroundAfterScoreAngle = SmartDashboard.getNumber("turnAroundAfterScoreAngle", 180);                            // This is in degrees
 
         // This if statement can be change (actually please change it) once we know
         // more about how we're going to control the different auto plans
