@@ -10,11 +10,11 @@ public class ArcadeDriveUntilCloseCommand extends CommandBase {
     private final double m_threshold;
     private final double m_speed;
 
-    public ArcadeDriveUntilCloseCommand(RobotMap robotMap, double speed, double thresholdInMM) {
+    public ArcadeDriveUntilCloseCommand(RobotMap robotMap, double thresholdInInches, double speed) {
         this.m_robotMap = robotMap;
 
+        this.m_threshold = thresholdInInches;
         this.m_speed = speed;
-        this.m_threshold = thresholdInMM;
 
         // This is to make the command require the subsystem
         addRequirements(this.m_robotMap.getDriveTrain());
@@ -22,7 +22,7 @@ public class ArcadeDriveUntilCloseCommand extends CommandBase {
 
     @Override
     public void execute() {
-        new ArcadeDriveCommand(this.m_robotMap.getDriveTrain(), this.m_speed, 0).execute();
+        this.m_robotMap.getDriveTrain().arcadeDrive(this.m_speed, 0);
     }
 
     @Override

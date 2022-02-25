@@ -8,6 +8,8 @@ public class ClimbArmExtendCommand extends CommandBase {
 
     public ClimbArmExtendCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;
+
+        this.addRequirements(this.m_climbSubsystem);
     }
 
     @Override

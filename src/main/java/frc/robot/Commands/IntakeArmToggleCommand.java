@@ -8,6 +8,8 @@ public class IntakeArmToggleCommand extends InstantCommand {
 
     public IntakeArmToggleCommand(IntakeSubsystem intakeSubsystem) {
         this.m_intakeSubsystem = intakeSubsystem;
+
+        this.addRequirements(this.m_intakeSubsystem);
     }
 
     @Override

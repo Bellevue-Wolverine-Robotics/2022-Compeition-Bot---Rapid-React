@@ -32,23 +32,8 @@ public class Constants {
     // And we know that the max distance is 5,000mm we can just set up a proportion
     // 5000/x = 300/293
     // x = 1,500,000 / 293
-    public static final double MILLIMETERS_PER_5V = 1_500_000 / 293;
-
-
-    // All ID's beyond this point are assumptions, except the test motors.
-    /*
-     * Shooter
-     */
-    // CAN IDs
-    public static final int SHOOTER_MOTOR = 8;
-
-    // Motor or piston now dunno which
-    public static final int HEAD_CONTROL_MOTOR = 9;
-    public static final int HEAD_CONTROL_PISTON_DEPLOY = 6;
-    public static final int HEAD_CONTROL_PISTON_RETRACT = 7;
-
-    // Input
-    public static final int FLYWHEEL_BUTTON = 1;
+    // Now we convert this to inches by multiplying by 0.0393701
+    public static final double INCHES_PER_5V = (1_500_000 / 293) * 0.0393701;
 
 
     /*
@@ -71,6 +56,15 @@ public class Constants {
     public static final int LONG_ARM_RETRACT_BUTTON = 4;
     public static final int HOOKS_TOGGLE_BUTTON = 2;
 
+    // Calculations
+    public static final int MAX_ARM_EXTENSION = 40;
+    public static final int ARM_EXTENSION_DEADZONE = 10; // This is in inches
+    public static final double ARM_EXTEND_POSITION_FACTOR = 5;
+
+    public static final int MAX_ARM_PIVOT = 270;
+    public static final int ARM_PIVOT_DEADZONE = 10; // This is in degrees
+    public static final double ARM_PIVOT_POSITION_FACTOR = 10;
+
 
     /*
      * Intake
@@ -88,11 +82,4 @@ public class Constants {
 	public static final int INTAKE_START_BUTTON = 11;
 	public static final int INTAKE_REVERSE_BUTTON = 12;
 	public static final int INTAKE_TOGGLE_BUTTON = 9;
-
-
-    /*
-     * Test motors
-     */
-    // public static final int NEO_ID = 5;
-    // public static final int REDLINE_ID = 6; // Test intake
 }

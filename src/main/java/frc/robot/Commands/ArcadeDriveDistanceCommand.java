@@ -8,8 +8,9 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
     private final DriveTrainSubsystem m_driveTrainSubsystem;
 
     private final double m_forwardBackInchesDistance;
-    private final ArcadeDriveCommand m_moveCommand;
     private double m_startingPosition;
+
+    private double m_speed;
 
     private boolean m_isFinished = false;
 
@@ -21,8 +22,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
         if (speed > 1 || speed < -1) {
             throw new IllegalArgumentException("Speed at invalid value: " + speed);
         }
-        
-        this.m_moveCommand = new ArcadeDriveCommand(this.m_driveTrainSubsystem, speed, 0);
+        this.m_speed = speed;
         
         // This is to make the command require the subsystem
         addRequirements(this.m_driveTrainSubsystem);
@@ -44,7 +44,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
         }
 
         // If not keep moving at the given speed
-        this.m_moveCommand.execute();
+        this.m_driveTrainSubsystem.arcadeDrive(this.m_speed, 0);
     }
 
     @Override

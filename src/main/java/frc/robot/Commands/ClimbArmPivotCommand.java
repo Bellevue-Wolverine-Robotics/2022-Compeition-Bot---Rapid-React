@@ -8,6 +8,8 @@ public class ClimbArmPivotCommand extends CommandBase {
 
     public ClimbArmPivotCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;
+
+        this.addRequirements(this.m_climbSubsystem);
     }
 
     @Override

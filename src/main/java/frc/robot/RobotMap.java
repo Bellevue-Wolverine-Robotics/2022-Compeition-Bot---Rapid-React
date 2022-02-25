@@ -17,7 +17,7 @@ public class RobotMap {
 
     // yes the class name is weird, the docs say it's a misnomer
     // Also put this at least a ft away from the front bumper, also leave it 1-2ft above the ground
-    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.MILLIMETERS_PER_5V);
+    private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.INCHES_PER_5V);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
@@ -27,8 +27,6 @@ public class RobotMap {
 
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
-    private final ColorSensorSubsystem m_colorSensor = new ColorSensorSubsystem();
-    
     public RobotMap() {
 		this.configureDefaultCommands();
 		this.configureButtonBindings();
@@ -47,14 +45,27 @@ public class RobotMap {
 
         // Intake
         Joystick intakeJoystick = this.m_joystick3;
-        assignActionToButtonHold(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-        assignActionToButtonHold(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+
+        // Add start to press and stop to raise
+        assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
+
+        // Do the same for reverse command
+        assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
+        
         assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
     }
 
     private JoystickButton assignActionToButtonPress(Command command, int buttonId, Joystick joystick) {
         JoystickButton button = new JoystickButton(joystick, buttonId);
         button.whenPressed(command);
+        return button;
+    }
+
+    private JoystickButton assignActionToButtonRelease(Command command, int buttonID, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonID);
+        button.whenReleased(command);
         return button;
     }
 
@@ -88,10 +99,6 @@ public class RobotMap {
 
     public ADXRS450_Gyro getGyro() {
         return this.m_gyro;
-    }
-
-    public ColorSensorSubsystem getColorSensor() {
-        return this.m_colorSensor;
     }
 
     public AnalogPotentiometer getUltrasonicSensor() {
