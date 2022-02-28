@@ -26,6 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean m_isArmRaised = true;
 
     public IntakeSubsystem() {
+        this.m_intakeMotor.configFactoryDefault();
+
         stopIntake();
         setArmPosition(true);
     }
