@@ -1,11 +1,7 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -14,9 +10,10 @@ import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private final float m_longArmExtendMotorSpeed = 0.1f;
+    private final float m_longArmExtendMotorSpeed = 0.5f;
+    private final float m_longArmRetractMotorSpeed = 0.7f;
     
-    private final CANSparkMax m_longArmPivotMotor = new CANSparkMax(Constants.LONG_ARM_PIVOT_MOTOR, MotorType.kBrushless);
+    private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
     private final float m_longArmPivotMotorSpeed = 0.1f;
 
     private final DoubleSolenoid m_smallArmPiston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_1_DEPLOY, Constants.HOOKS_1_RETRACT);
@@ -26,13 +23,13 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         setHookPosition(true);
 
+        this.m_longArmExtendMotor.configFactoryDefault();
         this.m_longArmExtendMotor.setSelectedSensorPosition(0);
         this.m_longArmExtendMotor.setNeutralMode(NeutralMode.Brake);
 
-        this.m_longArmPivotMotor.restoreFactoryDefaults();
-        this.m_longArmPivotMotor.getEncoder().setPosition(0);
-        this.m_longArmPivotMotor.getEncoder().setPositionConversionFactor(Constants.ARM_PIVOT_POSITION_FACTOR);
-        this.m_longArmPivotMotor.setIdleMode(IdleMode.kBrake);
+        this.m_longArmExtendMotor.configFactoryDefault();
+        this.m_longArmExtendMotor.setSelectedSensorPosition(0);
+        this.m_longArmExtendMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override 
@@ -72,7 +69,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void extendArm() {
         if (this.canArmExtend()) {
-            this.m_longArmExtendMotor.set(ControlMode.PercentOutput, this.m_longArmExtendMotorSpeed);
+            this.m_longArmExtendMotor.set(this.m_longArmExtendMotorSpeed);
         } else {
             this.stopArm();
         }
@@ -80,14 +77,14 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void retractArm() {
         if (this.canArmRetract()) {
-            this.m_longArmExtendMotor.set(ControlMode.PercentOutput, -this.m_longArmExtendMotorSpeed);
+            this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
         } else {
             this.stopArm();
         }
     }
 
     public void stopArm() {
-        this.m_longArmExtendMotor.set(ControlMode.PercentOutput, 0.0);
+        this.m_longArmExtendMotor.set(0.0);
     }
 
     public boolean canArmExtend() {
@@ -132,7 +129,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public double getArmPivotPosition() {
-        return this.m_longArmPivotMotor.getEncoder().getPosition();
+        return this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096;
     }
 
     public void toggleHooks() {
