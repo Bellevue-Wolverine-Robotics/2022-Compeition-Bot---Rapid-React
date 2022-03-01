@@ -97,7 +97,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public double getArmExtendDistance() {
         // Divide by 1024 because CTRE uses 0-4096 as a full rotation
-        return this.m_longArmExtendMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096;
+        return Math.abs(this.m_longArmExtendMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
     }
 
     public void pivotArm() {
@@ -129,7 +129,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public double getArmPivotPosition() {
-        return this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096;
+        return Math.abs(this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
     }
 
     public void toggleHooks() {
