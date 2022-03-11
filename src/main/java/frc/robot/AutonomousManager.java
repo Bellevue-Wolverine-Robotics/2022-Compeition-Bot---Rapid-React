@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveDistanceCommand;
 import frc.robot.commands.ArcadeDriveTurnCommand;
 import frc.robot.commands.ArcadeDriveUntilCloseCommand;
+import frc.robot.commands.ClimbCalibrationCommand;
 import frc.robot.commands.IntakeArmToggleCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.commands.IntakeStartCommand;
@@ -118,8 +119,10 @@ public class AutonomousManager {
 
         }
 
-        // Start plan
-        this.m_currentCommands.schedule();
+        // Start plan along with calibration
+        this.m_currentCommands.alongWith(
+            new ClimbCalibrationCommand(this.m_robotMap.getClimb())
+        ).schedule();
     }
 
     public void autonomousPeriodic() {
