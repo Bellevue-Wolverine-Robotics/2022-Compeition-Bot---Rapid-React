@@ -121,7 +121,7 @@ public class AutonomousManager {
 
         // Start plan along with calibration
         this.m_currentCommands.alongWith(
-            new ClimbCalibrationCommand(this.m_robotMap.getClimb())
+            new ClimbCalibrationCommand(this.m_robotMap.getClimb()).andThen(() -> System.out.println("finished calibration"))
         ).schedule();
     }
 
