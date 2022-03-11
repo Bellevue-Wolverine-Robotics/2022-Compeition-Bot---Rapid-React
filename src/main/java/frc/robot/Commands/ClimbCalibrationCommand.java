@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbCalibrationCommand extends CommandBase {
@@ -25,13 +26,15 @@ public class ClimbCalibrationCommand extends CommandBase {
     @Override
     public void execute() {
         // If the arm has retracted all the way, set the encoder position to 0 and stop the motor
-        if (!this.m_finishedExtend && this.m_climbSubsystem.getArmExtendLimitSwitch().get()) {
+        if ((!this.m_finishedExtend && this.m_climbSubsystem.getArmExtendLimitSwitch().get())
+            || this.m_climbSubsystem.getArmExtendDistance() > Constants.MAX_ARM_EXTENSION - Constants.ARM_EXTENSION_DEADZONE) {
             this.m_climbSubsystem.stopArm();
             this.m_climbSubsystem.resetLongArmExtendEncoder();
             this.m_finishedExtend = true;
         }
 
-        if (!this.m_finishedPivot && this.m_climbSubsystem.getArmPivotLimitSwitch().get()) {
+        if ((!this.m_finishedPivot && this.m_climbSubsystem.getArmPivotLimitSwitch().get())
+            || this.m_climbSubsystem.getArmPivotPosition() > Constants.MAX_ARM_PIVOT - Constants.ARM_PIVOT_DEADZONE) {
             this.m_climbSubsystem.pivotStopArm();
             this.m_climbSubsystem.resetLongArmPivotEncoder();
             this.m_finishedPivot = true;
