@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -14,13 +12,12 @@ public class ClimbSubsystem extends SubsystemBase {
     private final float m_longArmRetractMotorSpeed = 0.7f;
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
-    private final float m_longArmPivotMotorSpeed = 0.1f;
+    private final float m_longArmPivotMotorSpeed = 0.4f;
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
     private final WPI_TalonSRX m_smallArmMotor2 = new WPI_TalonSRX(Constants.SMALL_ARM_2_MOTOR);
-    private final MotorControllerGroup m_smallArmMotors = new MotorControllerGroup(m_smallArmMotor1, m_smallArmMotor2);
-    private final float m_smallArmMotorAmps = 1;
-    private final int m_timeToToggleHooks = 250; // Time in MS it takes to toggle the hooks
+    private final float m_smallArmMotorSpeed = 0.4f;
+    private final int m_timeToToggleHooks = 500; // Time in MS it takes to toggle the hooks
     private long m_timeStartedTogglingHooks;
     private boolean m_areHooksRetracted = true;
 
@@ -37,6 +34,8 @@ public class ClimbSubsystem extends SubsystemBase {
         this.m_longArmPivotMotor.configFactoryDefault();
         this.m_longArmPivotMotor.setSelectedSensorPosition(0);
         this.m_longArmPivotMotor.setNeutralMode(NeutralMode.Brake);
+        // Negative is regular pivot, and positive and reverse pivot
+        this.m_longArmPivotMotor.setInverted(true);
 
         // Configure small arm motors
         SupplyCurrentLimitConfiguration currentLimitConfig = new SupplyCurrentLimitConfiguration();
@@ -113,7 +112,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void stopArm() {
-        this.m_longArmExtendMotor.stopMotor();;
+        this.m_longArmExtendMotor.stopMotor();
     }
 
     public boolean canArmExtend() {
@@ -146,7 +145,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void pivotArmStop() {
-        this.m_longArmPivotMotor.stopMotor();;
+        this.m_longArmPivotMotor.stopMotor();
     }
 
     public boolean canArmPivot() {
@@ -168,16 +167,19 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void stopHooks() {
-        this.m_smallArmMotors.stopMotor();
+        this.m_smallArmMotor1.stopMotor();
+        this.m_smallArmMotor2.stopMotor();
     }
 
     public void setHookPosition(boolean retractHooks) {
         // This code assumes that inverted retracts the hooks
         // If not then we can change it
-        this.m_smallArmMotors.setInverted(retractHooks);
+        // Small arm motor one is mounted the other direction to 2 so it needs to be inverted differently
+        this.m_smallArmMotor1.setInverted(!retractHooks);
+        this.m_smallArmMotor2.setInverted(retractHooks);
 
-        this.m_smallArmMotor1.set(ControlMode.Current, this.m_smallArmMotorAmps);
-        this.m_smallArmMotor2.set(ControlMode.Current, this.m_smallArmMotorAmps);
+        this.m_smallArmMotor1.set(this.m_smallArmMotorSpeed);
+        this.m_smallArmMotor2.set(this.m_smallArmMotorSpeed);
 
         this.m_timeStartedTogglingHooks = System.currentTimeMillis();
     }
