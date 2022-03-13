@@ -63,7 +63,7 @@ public class Constants {
 
     public static final int MAX_ARM_PIVOT = 70;
     public static final int ARM_PIVOT_DEADZONE = 10; // This is in degrees
-    public static final double ARM_PIVOT_POSITION_FACTOR = 360 * (1 / 100D); // It has a 1 to 100 gear ratio meaning thats 100 rotations per 360 degrees
+    public static final double ARM_PIVOT_POSITION_FACTOR = 15 / 12D * 360; // The sprocket has 15/12 gear ratio
 
 
     /*

@@ -15,7 +15,9 @@ public class ClimbSubsystem extends SubsystemBase {
     private final float m_longArmRetractMotorSpeed = 0.7f;
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
-    private final float m_longArmPivotMotorSpeed = 20f; // This is in degrees per second
+    private final double m_longArmPivotMotorSpeed = 20f // This is in degrees per second
+                                                    / Constants.ARM_PIVOT_POSITION_FACTOR * 4096;  
+    private final float m_longArmPivotIdleSpeed = 0.25f;
 
     private final DoubleSolenoid m_smallArmPiston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_1_DEPLOY, Constants.HOOKS_1_RETRACT);
     private final DoubleSolenoid m_smallArmPiston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.HOOKS_2_DEPLOY, Constants.HOOKS_2_RETRACT);
@@ -35,6 +37,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     @Override 
     public void periodic() {
+        System.out.println(this.getArmPivotPosition());
         // Ensure that the arm can extend/retract if the motors are currently extending or retracting
         switch ((int)this.m_longArmExtendMotor.get()) {
             case 1:
@@ -103,7 +106,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void pivotArm() {
         if (this.canArmPivot()) {
-            this.m_longArmPivotMotor.set(ControlMode.Position, getArmPivotPosition() + (this.m_longArmPivotMotorSpeed / 50));
+            this.m_longArmPivotMotor.set(ControlMode.Velocity, this.m_longArmPivotMotorSpeed);
         } else {
             this.pivotArmStop();
         }
@@ -111,14 +114,14 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void pivotArmReverse() {
         if (this.canArmPivotReverse()) {
-            this.m_longArmPivotMotor.set(ControlMode.Position, getArmPivotPosition() - (this.m_longArmPivotMotorSpeed / 50));
+            this.m_longArmPivotMotor.set(ControlMode.Velocity, this.m_longArmPivotMotorSpeed / 50);
         } else {
             this.pivotArmStop();
         }
     }
 
     public void pivotArmStop() {
-        this.m_longArmPivotMotor.set(0.0);
+        this.m_longArmPivotMotor.set(this.m_longArmPivotIdleSpeed);
     }
 
     public boolean canArmPivot() {
@@ -130,7 +133,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public double getArmPivotPosition() {
-        return this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096;
+        return this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_PIVOT_POSITION_FACTOR / 4096;
     }
 
     public void toggleHooks() {
