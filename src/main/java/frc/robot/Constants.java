@@ -55,11 +55,11 @@ public class Constants {
     // Calculations
     public static final int MAX_ARM_EXTENSION = 21;
     public static final int ARM_EXTENSION_DEADZONE = 1; // This is in inches
-    public static final double ARM_EXTEND_POSITION_FACTOR = (1 / 21D) * (Math.PI * 1.125D); // 21 rotations is 1 rotation of a 1.125 radius pulley
+    public static final double ARM_EXTEND_POSITION_FACTOR = Math.PI * 1.125D; // 1 rotation is a rotation of a 1.125 radius pulley
 
     public static final int MAX_ARM_PIVOT = 70;
     public static final int ARM_PIVOT_DEADZONE = 10; // This is in degrees
-    public static final double ARM_PIVOT_POSITION_FACTOR = 360 * (1 / 100D); // It has a 1 to 100 gear ratio meaning thats 100 rotations per 360 degrees
+    public static final double ARM_PIVOT_POSITION_FACTOR = 15 / 12D * 360; // The sprocket is 15 rotations to 12
 
 
     /*

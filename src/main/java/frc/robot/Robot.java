@@ -112,6 +112,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
+        this.m_robotMap.getClimb().resetPivot();
     }
 
     /** This function is called periodically during test mode. */

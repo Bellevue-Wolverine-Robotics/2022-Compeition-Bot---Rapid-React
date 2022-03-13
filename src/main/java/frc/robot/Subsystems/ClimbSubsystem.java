@@ -13,6 +13,8 @@ public class ClimbSubsystem extends SubsystemBase {
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
     private final float m_longArmPivotMotorSpeed = 0.4f;
+    private final double m_longArmPivotMotorIdle = 0.31f * (1 / Math.cos(Math.toRadians(72)));
+    private boolean m_pivotStopped = true;
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
     private final WPI_TalonSRX m_smallArmMotor2 = new WPI_TalonSRX(Constants.SMALL_ARM_2_MOTOR);
@@ -24,6 +26,8 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         // Make sure hooks are retracted
         setHookPosition(true);
+
+        stopArm();
 
         // Configure extend motor
         this.m_longArmExtendMotor.configFactoryDefault();
@@ -55,8 +59,19 @@ public class ClimbSubsystem extends SubsystemBase {
         this.m_smallArmMotor2.configSupplyCurrentLimit(currentLimitConfig);
     }
 
+    public void resetPivot() {
+        this.m_longArmPivotMotor.setSelectedSensorPosition(0);
+    }
+
     @Override 
     public void periodic() {
+        System.out.println(getArmPivotPosition());
+
+        // control for gravity
+        if (this.m_pivotStopped) {
+            this.m_longArmPivotMotor.set(-Math.cos(Math.toRadians(getArmPivotPosition())) * this.m_longArmPivotMotorIdle);
+        }
+
         // Ensure that the arm can extend/retract if the motors are currently extending or retracting
         switch ((int)this.m_longArmExtendMotor.get()) {
             case 1:
@@ -74,19 +89,15 @@ public class ClimbSubsystem extends SubsystemBase {
         }
 
         // Ensure that the arm can pivot in both directions if the motors are currently running
-        switch ((int)this.m_longArmPivotMotor.get()) {
-            case 1:
-                if (!this.canArmPivot()) {
-                    this.pivotArmStop();
-                }
-                break;
-            case -1:
-                if (!this.canArmPivotReverse()) {
-                    this.pivotArmStop();
-                }
-                break;
-            default:
-                break;
+        double pivotSpeed = this.m_longArmPivotMotor.get();
+        if (pivotSpeed < 0) {
+            if (!this.canArmPivot()) {
+                this.pivotArmStop();
+            }
+        } else if (pivotSpeed > 0) {
+            if (!this.canArmPivotReverse()) {
+                this.pivotArmStop();
+            }
         }
 
         // Have a timer to make sure hooks are only running for the listed time
@@ -129,6 +140,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void pivotArm() {
+        this.m_pivotStopped = false;
         if (this.canArmPivot()) {
             this.m_longArmPivotMotor.set(this.m_longArmPivotMotorSpeed);
         } else {
@@ -137,6 +149,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void pivotArmReverse() {
+        this.m_pivotStopped = false;
         if (this.canArmPivotReverse()) {
             this.m_longArmPivotMotor.set(-this.m_longArmPivotMotorSpeed);
         } else {
@@ -145,7 +158,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void pivotArmStop() {
-        this.m_longArmPivotMotor.stopMotor();
+        this.m_pivotStopped = true;
     }
 
     public boolean canArmPivot() {
@@ -157,7 +170,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public double getArmPivotPosition() {
-        return Math.abs(this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
+        return Math.abs(this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_PIVOT_POSITION_FACTOR / 4096);
     }
 
     public void toggleHooks() {
