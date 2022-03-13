@@ -10,9 +10,9 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
-    private final float m_motorSpeed = 0.3f;
+    private final float m_motorSpeed = 0.9f;
 
-    private final float m_amperagePercentThreshold = 1.2f;
+    private final float m_amperagePercentThreshold = 1.1f;
     private boolean m_hasIntakedBall = false;
     private long m_timeStartIntake = Long.MAX_VALUE;
     private final int m_rampupTime = 1000; // in ms
@@ -63,6 +63,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // Then we calculate average
         this.m_averageAmperage = sum / this.m_rollingAverageArray.length;
+
+        System.out.println(this.m_hasIntakedBall);
     }
 
     public void startIntake() {
