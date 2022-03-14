@@ -16,7 +16,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
     private final WPI_TalonSRX m_smallArmMotor2 = new WPI_TalonSRX(Constants.SMALL_ARM_2_MOTOR);
-    private final float m_smallArmMotorSpeed = 0.4f;
+    private final float m_smallArmMotorSpeedLeft = 0.4f;
+    private final float m_smallArmMotorSpeedRight = 0.9f;
     private final int m_timeToToggleHooks = 500; // Time in MS it takes to toggle the hooks
     private long m_timeStartedTogglingHooks;
     private boolean m_areHooksRetracted = true;
@@ -178,8 +179,8 @@ public class ClimbSubsystem extends SubsystemBase {
         this.m_smallArmMotor1.setInverted(!retractHooks);
         this.m_smallArmMotor2.setInverted(retractHooks);
 
-        this.m_smallArmMotor1.set(this.m_smallArmMotorSpeed);
-        this.m_smallArmMotor2.set(this.m_smallArmMotorSpeed);
+        this.m_smallArmMotor1.set(this.m_smallArmMotorSpeedRight);
+        this.m_smallArmMotor2.set(this.m_smallArmMotorSpeedLeft);
 
         this.m_timeStartedTogglingHooks = System.currentTimeMillis();
     }
