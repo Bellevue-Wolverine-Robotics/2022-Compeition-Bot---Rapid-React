@@ -10,6 +10,8 @@ public class ArcadeDriveUntilCloseCommand extends CommandBase {
     private final double m_threshold;
     private final double m_speed;
 
+    private boolean m_isFinished = false;
+
     public ArcadeDriveUntilCloseCommand(RobotMap robotMap, double thresholdInInches, double speed) {
         this.m_robotMap = robotMap;
 
@@ -21,12 +23,21 @@ public class ArcadeDriveUntilCloseCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        this.m_isFinished = false;
+    }
+
+    @Override
     public void execute() {
+        if (this.m_robotMap.getUltrasonicSensor().get() < this.m_threshold) {
+            this.m_isFinished = true;
+            this.m_robotMap.getDriveTrain().stopMotors();
+        }
         this.m_robotMap.getDriveTrain().arcadeDrive(this.m_speed, 0);
     }
 
     @Override
     public boolean isFinished() {
-        return this.m_robotMap.getUltrasonicSensor().get() < this.m_threshold;
+        return this.m_isFinished;
     }
 } 
