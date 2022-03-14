@@ -75,7 +75,7 @@ public class Constants {
     public static final int INTAKE_RIGHT_RETRACT = 3;
 
     // Input
-	public static final int INTAKE_START_BUTTON = 11;
-	public static final int INTAKE_REVERSE_BUTTON = 12;
+	public static final int INTAKE_START_BUTTON = 12;
+	public static final int INTAKE_REVERSE_BUTTON = 11;
 	public static final int INTAKE_TOGGLE_BUTTON = 9;
 }
