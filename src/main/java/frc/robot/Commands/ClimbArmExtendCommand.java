@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbArmExtendCommand extends CommandBase {
-    private ClimbSubsystem m_climbSubsystem;
+    private final ClimbSubsystem m_climbSubsystem;
 
     public ClimbArmExtendCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;

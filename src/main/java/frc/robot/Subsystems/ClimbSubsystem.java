@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,9 +12,12 @@ public class ClimbSubsystem extends SubsystemBase {
     private final float m_longArmExtendMotorSpeed = 0.5f;
     private final float m_longArmRetractMotorSpeed = 0.7f;
     private final DigitalInput m_longArmExtendLimitSwitch = new DigitalInput(1);
+    private boolean m_extendOverride = false;
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
     private final float m_longArmPivotMotorSpeed = 0.4f;
+    private final DigitalInput m_longArmPivotLimitSwitch = new DigitalInput(2);
+    private boolean m_pivotOverride = false;
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
     private final WPI_TalonSRX m_smallArmMotor2 = new WPI_TalonSRX(Constants.SMALL_ARM_2_MOTOR);
@@ -79,12 +83,12 @@ public class ClimbSubsystem extends SubsystemBase {
         switch ((int)this.m_longArmPivotMotor.get()) {
             case 1:
                 if (!this.canArmPivot()) {
-                    this.pivotStopArm();
+                    this.pivotArmStop();
                 }
                 break;
             case -1:
                 if (!this.canArmPivotReverse()) {
-                    this.pivotStopArm();
+                    this.pivotArmStop();
                 }
                 break;
             default:
@@ -102,7 +106,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void extendArm() {
-        if (this.canArmExtend()) {
+        if (this.m_extendOverride || this.canArmExtend()) {
             this.m_longArmExtendMotor.set(this.m_longArmExtendMotorSpeed);
         } else {
             this.stopArm();
@@ -110,12 +114,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void retractArm() {
-        retractArm(false);
-    }
-
-    // USE THIS WITH EXTREME CAUTION
-    public void retractArm(boolean override) {
-        if (override || this.canArmRetract()) {
+        if (this.m_extendOverride || this.canArmRetract()) {
             this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
         } else {
             this.stopArm();
@@ -144,28 +143,31 @@ public class ClimbSubsystem extends SubsystemBase {
         return this.m_longArmExtendLimitSwitch;
     }
 
+    public void setExtendOverride(boolean value) {
+        this.m_extendOverride = value;
+    }
+
+    public boolean getExtendOverride() {
+        return this.m_extendOverride;
+    }
+
     public void resetLongArmPivotEncoder() {
         this.m_longArmPivotMotor.setSelectedSensorPosition(0);
     }
 
     public void pivotArm() {
-        if (this.canArmPivot()) {
+        if (this.m_pivotOverride || this.canArmPivot()) {
             this.m_longArmPivotMotor.set(this.m_longArmPivotMotorSpeed);
         } else {
-            this.pivotStopArm();
+            this.pivotArmStop();
         }
     }
 
     public void pivotArmReverse() {
-        pivotArmReverse(false);
-    }
-
-    // USE THIS WITH EXTREME CAUTION
-    public void pivotArmReverse(boolean override) {
-        if (override || this.canArmPivotReverse()) {
+        if (this.m_pivotOverride || this.canArmPivotReverse()) {
             this.m_longArmPivotMotor.set(-this.m_longArmPivotMotorSpeed);
         } else {
-            this.pivotStopArm();
+            this.pivotArmStop();
         }
     }
 
@@ -188,6 +190,14 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public DigitalInput getArmPivotLimitSwitch() {
         return this.m_longArmPivotLimitSwitch;
+    }
+
+    public void setPivotOverride(boolean value) {
+        this.m_pivotOverride = value;
+    }
+
+    public boolean getPivotOverride() {
+        return this.m_pivotOverride;
     }
 
     public void toggleHooks() {

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbArmPivotCommand extends CommandBase {
-    private ClimbSubsystem m_climbSubsystem;
+    private final ClimbSubsystem m_climbSubsystem;
 
     public ClimbArmPivotCommand(ClimbSubsystem climbSubsystem) {
         this.m_climbSubsystem = climbSubsystem;
@@ -19,6 +19,6 @@ public class ClimbArmPivotCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        this.m_climbSubsystem.pivotStopArm();
+        this.m_climbSubsystem.pivotArmStop();
     }
 }

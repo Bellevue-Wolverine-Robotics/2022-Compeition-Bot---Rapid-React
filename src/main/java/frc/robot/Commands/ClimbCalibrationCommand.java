@@ -19,27 +19,31 @@ public class ClimbCalibrationCommand extends CommandBase {
     @Override
     public void initialize() {
         // Start moving arm towards its limits
-        this.m_climbSubsystem.retractArm(true);
-        this.m_climbSubsystem.pivotArmReverse(true);
+        this.m_climbSubsystem.setPivotOverride(true);
+        this.m_climbSubsystem.setExtendOverride(true);
+        this.m_climbSubsystem.retractArm();
+        this.m_climbSubsystem.pivotArmReverse();
     }
 
     @Override
     public void execute() {
-        this.m_climbSubsystem.retractArm(true);
-        this.m_climbSubsystem.pivotArmReverse(true);
+        this.m_climbSubsystem.retractArm();
+        this.m_climbSubsystem.pivotArmReverse();
 
         // If the arm has retracted all the way, set the encoder position to 0 and stop the motor
         if ((!this.m_finishedExtend && this.m_climbSubsystem.getArmExtendLimitSwitch().get())
             || this.m_climbSubsystem.getArmExtendDistance() > Constants.MAX_ARM_EXTENSION) {
             this.m_climbSubsystem.stopArm();
             this.m_climbSubsystem.resetLongArmExtendEncoder();
+            this.m_climbSubsystem.setExtendOverride(false);
             this.m_finishedExtend = true;
         }
 
         if ((!this.m_finishedPivot && this.m_climbSubsystem.getArmPivotLimitSwitch().get())
             || this.m_climbSubsystem.getArmPivotPosition() > Constants.MAX_ARM_PIVOT) {
-            this.m_climbSubsystem.pivotStopArm();
+            this.m_climbSubsystem.pivotArmStop();
             this.m_climbSubsystem.resetLongArmPivotEncoder();
+            this.m_climbSubsystem.setPivotOverride(false);
             this.m_finishedPivot = true;
         }
     }

@@ -50,6 +50,7 @@ public class Constants {
     public static final int LONG_ARM_PIVOT_REVERSE_BUTTON = 3;
     public static final int LONG_ARM_EXTEND_BUTTON = 6;
     public static final int LONG_ARM_RETRACT_BUTTON = 4;
+    public static final int LONG_ARM_OVERRIDE_BUTTON = 8;
     public static final int HOOKS_TOGGLE_BUTTON = 2;
 
     // Calculations

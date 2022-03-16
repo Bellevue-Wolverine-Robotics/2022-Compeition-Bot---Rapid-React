@@ -42,6 +42,14 @@ public class RobotMap {
         assignActionToButtonHold(new ClimbArmPivotCommand(this.m_climb), Constants.LONG_ARM_PIVOT_BUTTON, climbJoystick);
         assignActionToButtonHold(new ClimbArmPivotReverseCommand(this.m_climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, climbJoystick);
         assignActionToButtonPress(new ClimbToggleHooksCommand(this.m_climb), Constants.HOOKS_TOGGLE_BUTTON, climbJoystick);
+        assignActionToButtonPress(() -> { 
+            this.m_climb.setPivotOverride(true);
+            this.m_climb.setExtendOverride(true);
+        }, Constants.LONG_ARM_OVERRIDE_BUTTON, climbJoystick);
+        assignActionToButtonRelease(() -> { 
+            this.m_climb.setPivotOverride(false);
+            this.m_climb.setExtendOverride(false);
+        }, Constants.LONG_ARM_OVERRIDE_BUTTON, climbJoystick);
 
         // Intake
         Joystick intakeJoystick = this.m_joystick3;
@@ -63,9 +71,21 @@ public class RobotMap {
         return button;
     }
 
+    private JoystickButton assignActionToButtonPress(Runnable action, int buttonId, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonId);
+        button.whenPressed(action);
+        return button;
+    }
+
     private JoystickButton assignActionToButtonRelease(Command command, int buttonID, Joystick joystick) {
         JoystickButton button = new JoystickButton(joystick, buttonID);
         button.whenReleased(command);
+        return button;
+    }
+
+    private JoystickButton assignActionToButtonRelease(Runnable action, int buttonID, Joystick joystick) {
+        JoystickButton button = new JoystickButton(joystick, buttonID);
+        button.whenReleased(action);
         return button;
     }
 
