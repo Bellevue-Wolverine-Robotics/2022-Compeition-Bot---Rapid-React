@@ -31,6 +31,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
     @Override
     public void initialize() {
         this.m_startingPosition = this.m_driveTrainSubsystem.getLeftBackMotor().getEncoder().getPosition();
+        this.m_isFinished = false;
     }
 
     @Override
@@ -40,6 +41,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
         if (Math.abs(currentPosition - this.m_startingPosition) > this.m_forwardBackInchesDistance) {
             // If it is then the command is finished and we should return
             this.m_isFinished = true;
+            this.m_driveTrainSubsystem.stopMotors();
             return;
         }
 

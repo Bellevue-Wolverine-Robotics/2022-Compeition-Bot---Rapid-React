@@ -31,6 +31,7 @@ public class ArcadeDriveTurnCommand extends CommandBase {
     @Override
     public void initialize() {
         this.m_startingAngle = this.m_robotMap.getGyro().getAngle();
+        this.m_isFinished = false;
     }
 
     @Override
@@ -40,6 +41,7 @@ public class ArcadeDriveTurnCommand extends CommandBase {
         if (Math.abs(currentPosition - this.m_startingAngle) > this.m_leftRightDegrees) {
             // If it is then the command is finished and we should return
             this.m_isFinished = true;
+            this.m_robotMap.getDriveTrain().stopMotors();
             return;
         }
 

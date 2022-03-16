@@ -10,14 +10,14 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
-    private final float m_motorSpeed = 0.3f;
+    private final float m_motorSpeed = 0.9f;
 
-    private final float m_amperagePercentThreshold = 1.2f;
+    private final float m_amperagePercentThreshold = 1.7f;
     private boolean m_hasIntakedBall = false;
     private long m_timeStartIntake = Long.MAX_VALUE;
     private final int m_rampupTime = 1000; // in ms
 
-    private final int m_rollingAverageSamples = 8;
+    private final int m_rollingAverageSamples = 15;
     private final double[] m_rollingAverageArray = new double[this.m_rollingAverageSamples]; 
     private double m_averageAmperage = 0;
 
@@ -27,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         this.m_intakeMotor.configFactoryDefault();
+        this.m_intakeMotor.setInverted(true);
 
         stopIntake();
         setArmPosition(true);
@@ -34,7 +35,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         // Figure out if we have intaked a ball
 
         double currentStatorCurrent = Math.abs(this.m_intakeMotor.getStatorCurrent());

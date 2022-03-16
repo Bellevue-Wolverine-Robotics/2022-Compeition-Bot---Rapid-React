@@ -51,31 +51,35 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double forwardBack, double leftRight) {
-        m_drive.arcadeDrive(forwardBack, leftRight);
+        this.m_drive.arcadeDrive(forwardBack, leftRight);
+    }
+
+    public void stopMotors() {
+        this.m_drive.stopMotor();
     }
 
     public MotorControllerGroup getLeftControllerGroup() {
-        return m_leftControllerGroup;
+        return this.m_leftControllerGroup;
     }
 
     public MotorControllerGroup getRightControllerGroup() {
-        return m_rightControllerGroup;
+        return this.m_rightControllerGroup;
     }
 
     public CANSparkMax getLeftFrontMotor() {
-        return m_leftFrontMotor;
+        return this.m_leftFrontMotor;
     }
 
     public CANSparkMax getLeftBackMotor() {
-        return m_leftBackMotor;
+        return this.m_leftBackMotor;
     }
 
     public CANSparkMax getRightFrontMotor() {
-        return m_rightFrontMotor;
+        return this.m_rightFrontMotor;
     }
 
     public CANSparkMax getRightBackMotor() {
-        return m_rightBackMotor;
+        return this.m_rightBackMotor;
     }
 }
 

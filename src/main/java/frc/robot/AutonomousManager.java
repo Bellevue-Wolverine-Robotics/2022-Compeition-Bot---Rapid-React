@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveDistanceCommand;
@@ -57,6 +58,9 @@ public class AutonomousManager {
                 // Stop the intake
                 new IntakeStopCommand(this.m_robotMap.getIntake()).andThen(() -> System.out.println("finished stopped intake")),
                                 
+                // Reverse away from the cart
+                new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 28, -motorSpeed),
+                
                 // flip a 180, lower the hopper and drive away
                 new ParallelCommandGroup(
                     new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAfterScoreAngle, motorSpeed),
@@ -89,13 +93,11 @@ public class AutonomousManager {
                     return this.m_robotMap.getIntake().hasIntakedBall();
                 }).andThen(() -> System.out.println("finished intake ball")),
 
-                // Drive 2 more inches then turn around 170 degrees
+                // Drive 2 more inches then raise and stop the intake and turn around 170 degrees
                 new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), distanceToDriveAfterIntakeMotorSpeedDrop, motorSpeed).andThen(() -> System.out.println("finished drive 2 more inches")),
-                new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAngle, motorSpeed).andThen(() -> System.out.println("finished turn")),
-
-                // Raise intake and stop it
                 new IntakeStopCommand(this.m_robotMap.getIntake()),
-                new IntakeArmToggleCommand(this.m_robotMap.getIntake()).andThen(() -> System.out.println("finished stop and toggle intake")),
+                new IntakeArmToggleCommand(this.m_robotMap.getIntake()), 
+                new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAngle, motorSpeed).andThen(() -> System.out.println("finished turn")),
 
                 // Drive to up until within XX inches
                 new ArcadeDriveUntilCloseCommand(this.m_robotMap, distanceFromHubToScore, motorSpeed).andThen(() -> System.out.println("finished drive until close")),
@@ -106,6 +108,9 @@ public class AutonomousManager {
                     new WaitCommand(intakeReverseTimeToScore)                    
                 ).andThen(() -> System.out.println("finished scoring")),
                 new IntakeStopCommand(this.m_robotMap.getIntake()).andThen(() -> System.out.println("finished stop intake")),
+
+                // Reverse away from the cart
+                new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 28, -motorSpeed),
 
                 // flip a 180, lower the hopper and drive away
                 new ParallelCommandGroup(
