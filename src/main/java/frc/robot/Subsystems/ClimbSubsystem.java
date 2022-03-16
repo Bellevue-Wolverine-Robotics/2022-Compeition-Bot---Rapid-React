@@ -10,6 +10,7 @@ public class ClimbSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
     private final float m_longArmExtendMotorSpeed = 0.5f;
     private final float m_longArmRetractMotorSpeed = 0.7f;
+    private final DigitalInput m_longArmExtendLimitSwitch = new DigitalInput(1);
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
     private final float m_longArmPivotMotorSpeed = 0.4f;
@@ -28,8 +29,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
         // Configure extend motor
         this.m_longArmExtendMotor.configFactoryDefault();
-        this.m_longArmExtendMotor.setSelectedSensorPosition(0);
         this.m_longArmExtendMotor.setNeutralMode(NeutralMode.Brake);
+        this.resetLongArmExtendEncoder();
 
         // Configure pivot motor
         this.m_longArmPivotMotor.configFactoryDefault();
@@ -78,12 +79,12 @@ public class ClimbSubsystem extends SubsystemBase {
         switch ((int)this.m_longArmPivotMotor.get()) {
             case 1:
                 if (!this.canArmPivot()) {
-                    this.pivotArmStop();
+                    this.pivotStopArm();
                 }
                 break;
             case -1:
                 if (!this.canArmPivotReverse()) {
-                    this.pivotArmStop();
+                    this.pivotStopArm();
                 }
                 break;
             default:
@@ -96,6 +97,10 @@ public class ClimbSubsystem extends SubsystemBase {
         }
     }
 
+    public void resetLongArmExtendEncoder() {
+        this.m_longArmExtendMotor.setSelectedSensorPosition(0);
+    }
+
     public void extendArm() {
         if (this.canArmExtend()) {
             this.m_longArmExtendMotor.set(this.m_longArmExtendMotorSpeed);
@@ -105,7 +110,12 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void retractArm() {
-        if (this.canArmRetract()) {
+        retractArm(false);
+    }
+
+    // USE THIS WITH EXTREME CAUTION
+    public void retractArm(boolean override) {
+        if (override || this.canArmRetract()) {
             this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
         } else {
             this.stopArm();
@@ -121,7 +131,8 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public boolean canArmRetract() {
-        return this.getArmExtendDistance() - Constants.ARM_EXTENSION_DEADZONE >= 0;
+        // As a safety precaution, the arm cannot retract while the limit switch is held
+        return this.getArmExtendDistance() - Constants.ARM_EXTENSION_DEADZONE >= 0 && !this.m_longArmExtendLimitSwitch.get();
     }
 
     public double getArmExtendDistance() {
@@ -129,19 +140,32 @@ public class ClimbSubsystem extends SubsystemBase {
         return Math.abs(this.m_longArmExtendMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
     }
 
+    public DigitalInput getArmExtendLimitSwitch() {
+        return this.m_longArmExtendLimitSwitch;
+    }
+
+    public void resetLongArmPivotEncoder() {
+        this.m_longArmPivotMotor.setSelectedSensorPosition(0);
+    }
+
     public void pivotArm() {
         if (this.canArmPivot()) {
             this.m_longArmPivotMotor.set(this.m_longArmPivotMotorSpeed);
         } else {
-            this.pivotArmStop();
+            this.pivotStopArm();
         }
     }
 
     public void pivotArmReverse() {
-        if (this.canArmPivotReverse()) {
+        pivotArmReverse(false);
+    }
+
+    // USE THIS WITH EXTREME CAUTION
+    public void pivotArmReverse(boolean override) {
+        if (override || this.canArmPivotReverse()) {
             this.m_longArmPivotMotor.set(-this.m_longArmPivotMotorSpeed);
         } else {
-            this.pivotArmStop();
+            this.pivotStopArm();
         }
     }
 
@@ -154,11 +178,16 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public boolean canArmPivotReverse() {
-        return this.getArmPivotPosition() - Constants.ARM_PIVOT_DEADZONE >= 0;
+        // For safety, the arm cannot pivot backwards when the limit switch is held
+        return this.getArmPivotPosition() - Constants.ARM_PIVOT_DEADZONE >= 0 && !this.m_longArmPivotLimitSwitch.get();
     }
 
     public double getArmPivotPosition() {
         return Math.abs(this.m_longArmPivotMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
+    }
+
+    public DigitalInput getArmPivotLimitSwitch() {
+        return this.m_longArmPivotLimitSwitch;
     }
 
     public void toggleHooks() {

@@ -19,6 +19,6 @@ public class ClimbArmPivotCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        this.m_climbSubsystem.pivotArmStop();
+        this.m_climbSubsystem.pivotStopArm();
     }
 }

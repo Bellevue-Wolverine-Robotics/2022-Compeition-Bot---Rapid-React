@@ -123,7 +123,7 @@ public class AutonomousManager {
 
         }
 
-        // Start plan
+        // Start plan along with calibration
         this.m_currentCommands.schedule();
     }
 

@@ -53,9 +53,9 @@ public class Constants {
     public static final int HOOKS_TOGGLE_BUTTON = 2;
 
     // Calculations
-    public static final int MAX_ARM_EXTENSION = 21;
-    public static final int ARM_EXTENSION_DEADZONE = 1; // This is in inches
-    public static final double ARM_EXTEND_POSITION_FACTOR = (1 / 21D) * (Math.PI * 1.125D); // 21 rotations is 1 rotation of a 1.125 radius pulley
+    public static final double MAX_ARM_EXTENSION = 18500 / 4096D;
+    public static final double ARM_EXTENSION_DEADZONE = 200 / 4096D; // This is in encoder units
+    public static final double ARM_EXTEND_POSITION_FACTOR = 1; // It's very difficult to calculate this
 
     public static final int MAX_ARM_PIVOT = 70;
     public static final int ARM_PIVOT_DEADZONE = 10; // This is in degrees
