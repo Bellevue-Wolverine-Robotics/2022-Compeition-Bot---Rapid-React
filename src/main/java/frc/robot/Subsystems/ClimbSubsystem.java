@@ -13,7 +13,7 @@ public class ClimbSubsystem extends SubsystemBase {
     
     private final WPI_TalonSRX m_longArmPivotMotor = new WPI_TalonSRX(Constants.LONG_ARM_PIVOT_MOTOR);
     private final float m_longArmPivotMotorSpeed = 0.4f;
-    private final double m_longArmPivotMotorIdle = 0.31f * (1 / Math.cos(Math.toRadians(72)));
+    private final double m_longArmPivotMotorIdle = 0.4f * (1 / Math.sin(Math.toRadians(72)));
     private boolean m_pivotStopped = true;
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
@@ -65,11 +65,10 @@ public class ClimbSubsystem extends SubsystemBase {
 
     @Override 
     public void periodic() {
-        System.out.println(getArmPivotPosition());
-
         // control for gravity
-        if (this.m_pivotStopped) {
-            this.m_longArmPivotMotor.set(-Math.cos(Math.toRadians(getArmPivotPosition())) * this.m_longArmPivotMotorIdle);
+        if (this.m_pivotStopped && this.m_longArmPivotMotor.getSelectedSensorPosition() <= 0) {
+            System.out.println((-Math.sin(Math.toRadians(getArmPivotPosition())) * this.m_longArmPivotMotorIdle));
+            this.m_longArmPivotMotor.set(-Math.sin(Math.toRadians(getArmPivotPosition())) * this.m_longArmPivotMotorIdle);
         }
 
         // Ensure that the arm can extend/retract if the motors are currently extending or retracting

@@ -29,7 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
         this.m_intakeMotor.configFactoryDefault();
 
         stopIntake();
-        setArmPosition(true);
+        //setArmPosition(true);
     }
 
     @Override
@@ -63,8 +63,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // Then we calculate average
         this.m_averageAmperage = sum / this.m_rollingAverageArray.length;
-
-        System.out.println(this.m_hasIntakedBall);
     }
 
     public void startIntake() {
