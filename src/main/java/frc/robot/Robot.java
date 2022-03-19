@@ -19,6 +19,8 @@ import frc.robot.commands.ClimbCalibrationCommand;
 public class Robot extends TimedRobot {
     private RobotMap m_robotMap;
 
+    private InputManager m_inputManager;
+
     private AutonomousManager m_autonomousManager;
 
     /**
@@ -43,6 +45,8 @@ public class Robot extends TimedRobot {
 
         this.m_robotMap = new RobotMap(); 
 
+        this.m_inputManager = new InputManager(this.m_robotMap);
+
         this.m_autonomousManager = new AutonomousManager(this.m_robotMap);
 
         // Temp vars for auto
@@ -65,6 +69,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        this.m_inputManager.periodic();
     }
 
     /**

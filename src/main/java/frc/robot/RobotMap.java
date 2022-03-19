@@ -2,19 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 /* Creates robot subsystems and commands, binds those commands to triggering 
     events (such as buttons), and specify which commands will run in autonomous. */
 public class RobotMap {
-    private final Joystick m_joystick1 = new Joystick(Constants.JOYSTICK_1);
-	private final Joystick m_joystick2 = new Joystick(Constants.JOYSTICK_2);
-	private final Joystick m_joystick3 = new Joystick(Constants.JOYSTICK_3);
-
     // yes the class name is weird, the docs say it's a misnomer
     // Also put this at least a ft away from the front bumper, also leave it 1-2ft above the ground
     private final AnalogPotentiometer m_ultrasonicSensor = new AnalogPotentiometer(0, Constants.INCHES_PER_5V);
@@ -28,78 +20,8 @@ public class RobotMap {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
     public RobotMap() {
-		this.configureDefaultCommands();
-		this.configureButtonBindings();
+		
 	}
-
-    private void configureButtonBindings() {
-        // Notice the difference between assignActionToButtonPress and assignActionToButtonHold
-
-        // Climb
-        Joystick climbJoystick = this.m_joystick3; // The joystick variables will make it easier to swap joysticks
-        assignActionToButtonHold(new ClimbArmExtendCommand(this.m_climb), Constants.LONG_ARM_EXTEND_BUTTON, climbJoystick);
-        assignActionToButtonHold(new ClimbArmRetractCommand(this.m_climb), Constants.LONG_ARM_RETRACT_BUTTON, climbJoystick);
-        assignActionToButtonHold(new ClimbArmPivotCommand(this.m_climb), Constants.LONG_ARM_PIVOT_BUTTON, climbJoystick);
-        assignActionToButtonHold(new ClimbArmPivotReverseCommand(this.m_climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, climbJoystick);
-        assignActionToButtonPress(new ClimbToggleHooksCommand(this.m_climb), Constants.HOOKS_TOGGLE_BUTTON, climbJoystick);
-        assignActionToButtonPress(() -> { 
-            this.m_climb.setPivotOverride(true);
-            this.m_climb.setExtendOverride(true);
-        }, Constants.LONG_ARM_OVERRIDE_BUTTON, climbJoystick);
-        assignActionToButtonRelease(() -> { 
-            this.m_climb.setPivotOverride(false);
-            this.m_climb.setExtendOverride(false);
-        }, Constants.LONG_ARM_OVERRIDE_BUTTON, climbJoystick);
-
-        // Intake
-        Joystick intakeJoystick = this.m_joystick3;
-
-        // Add start to press and stop to raise
-        assignActionToButtonPress(new IntakeStartCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_START_BUTTON, intakeJoystick);
-
-        // Do the same for reverse command
-        assignActionToButtonPress(new IntakeReverseCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
-        assignActionToButtonRelease(new IntakeStopCommand(this.m_intake), Constants.INTAKE_REVERSE_BUTTON, intakeJoystick);
-        
-        assignActionToButtonPress(new IntakeArmToggleCommand(this.m_intake), Constants.INTAKE_TOGGLE_BUTTON, intakeJoystick);
-    }
-
-    private JoystickButton assignActionToButtonPress(Command command, int buttonId, Joystick joystick) {
-        JoystickButton button = new JoystickButton(joystick, buttonId);
-        button.whenPressed(command);
-        return button;
-    }
-
-    private JoystickButton assignActionToButtonPress(Runnable action, int buttonId, Joystick joystick) {
-        JoystickButton button = new JoystickButton(joystick, buttonId);
-        button.whenPressed(action);
-        return button;
-    }
-
-    private JoystickButton assignActionToButtonRelease(Command command, int buttonID, Joystick joystick) {
-        JoystickButton button = new JoystickButton(joystick, buttonID);
-        button.whenReleased(command);
-        return button;
-    }
-
-    private JoystickButton assignActionToButtonRelease(Runnable action, int buttonID, Joystick joystick) {
-        JoystickButton button = new JoystickButton(joystick, buttonID);
-        button.whenReleased(action);
-        return button;
-    }
-
-    private JoystickButton assignActionToButtonHold(Command command, int buttonId, Joystick joystick) {
-        JoystickButton button = new JoystickButton(joystick, buttonId);
-        button.whenHeld(command);
-        return button;
-    }
-
-    private void configureDefaultCommands() {
-        ArcadeDriveJoystickCommand command = new ArcadeDriveJoystickCommand(this.m_driveTrain, this.m_joystick1);
-        /* Test of command based robot control */
-        this.m_driveTrain.setDefaultCommand(command);
-    }
 
     public void onDisable() {
         this.m_gyro.calibrate();
