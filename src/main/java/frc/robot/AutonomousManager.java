@@ -61,10 +61,7 @@ public class AutonomousManager {
                 new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 28, -motorSpeed),
                 
                 // flip a 180, lower the hopper and drive away
-                new ParallelCommandGroup(
-                    new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAfterScoreAngle, motorSpeed),
-                    new IntakeArmToggleCommand(this.m_robotMap.getIntake())                    
-                ).andThen(() -> System.out.println("finished turn around")),
+                new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAfterScoreAngle, motorSpeed).andThen(() -> System.out.println("finished turn around")),
                 new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), reverseAfterFinished, motorSpeed).andThen(() -> System.out.println("finished back away"))
             );
             this.m_currentCommands = oneBallAuto;
@@ -112,10 +109,7 @@ public class AutonomousManager {
                 new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 28, -motorSpeed),
 
                 // flip a 180, lower the hopper and drive away
-                new ParallelCommandGroup(
-                    new ArcadeDriveTurnCommand(this.m_robotMap, turnAroundAfterScoreAngle, motorSpeed),
-                    new IntakeArmToggleCommand(this.m_robotMap.getIntake())                    
-                ).andThen(() -> System.out.println("finished turn around")),
+                new IntakeArmToggleCommand(this.m_robotMap.getIntake()).andThen(() -> System.out.println("finished turn around")),
                 new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), reverseAfterFinished, motorSpeed).andThen(() -> System.out.println("finished back away"))
             );
             this.m_currentCommands = twoBallAuto;
@@ -123,7 +117,7 @@ public class AutonomousManager {
         }
 
         // Start plan along with calibration
-        this.m_currentCommands.schedule();
+        this.m_currentCommands.schedule(false);
     }
 
     public void autonomousPeriodic() {
