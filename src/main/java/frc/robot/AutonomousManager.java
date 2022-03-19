@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArcadeDriveDistanceCommand;
@@ -33,7 +34,7 @@ public class AutonomousManager {
         // Define variables up here so we can change them easily
         // Motor speed drop will be controlled in IntakeSubsystem
         
-        double motorSpeed = SmartDashboard.getNumber("motorSpeed", 0.3);                                                          // This is in percent
+        double motorSpeed = SmartDashboard.getNumber("motorSpeed", 0.4);                                                          // This is in percent
         double intakeReverseTimeToScore = SmartDashboard.getNumber("intakeReverseTimeToScore", 2);                                // This is in seconds
         double distanceToDriveAfterIntakeMotorSpeedDrop = SmartDashboard.getNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
         double turnAroundAngle = SmartDashboard.getNumber("turnAroundAngle", 171);                                                // This is in degrees
@@ -73,13 +74,15 @@ public class AutonomousManager {
                 // turn on intake 
                 new IntakeStartCommand(this.m_robotMap.getIntake()),
 
-                // Move hopper down and move forward, until our motor speed drops
-                // Parallel command group will run all these commands at the same time
-                new ParallelCommandGroup(
-                    new IntakeArmToggleCommand(this.m_robotMap.getIntake()),
+                // Move hopper down
+                new IntakeArmToggleCommand(this.m_robotMap.getIntake()),
+                // Parallel command group will run all these commands at the same time and stop once one finishes
+                // move forward, until our motor speed drops or 4 seconds passes
+                new ParallelRaceGroup(
 
                     // This command *should* get interrupted, but it will stop after 5 feet for safety
-                    new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 60, motorSpeed)
+                    new ArcadeDriveDistanceCommand(this.m_robotMap.getDriveTrain(), 60, motorSpeed),
+                    new WaitCommand(4)
 
                 ).withInterrupt(() -> {
                     // This withInterrupt() call will stop the parallel command group when

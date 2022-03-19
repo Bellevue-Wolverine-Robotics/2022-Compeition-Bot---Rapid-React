@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         this.m_autonomousManager = new AutonomousManager(this.m_robotMap);
 
         // Temp vars for auto
-        SmartDashboard.putNumber("motorSpeed", 0.3);                            // This is in percent
+        SmartDashboard.putNumber("motorSpeed", 0.4);                            // This is in percent
         SmartDashboard.putNumber("intakeReverseTimeToScore", 2);                // This is in seconds
         SmartDashboard.putNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
         SmartDashboard.putNumber("turnAroundAngle", 171);                       // This is in degrees
