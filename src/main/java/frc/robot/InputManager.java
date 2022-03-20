@@ -76,7 +76,7 @@ public class InputManager {
         assignActionToButtonHold(new ClimbArmRetractCommand(climb), Constants.LONG_ARM_RETRACT_BUTTON, this.m_climbJoystick);
         // assignActionToButtonHold(new ClimbArmPivotCommand(climb), Constants.LONG_ARM_PIVOT_BUTTON, this.m_climbJoystick);
         // assignActionToButtonHold(new ClimbArmPivotReverseCommand(climb), Constants.LONG_ARM_PIVOT_REVERSE_BUTTON, this.m_climbJoystick);
-        assignActionToButtonPress(new ClimbToggleHooksCommand(climb), Constants.HOOKS_TOGGLE_BUTTON, this.m_climbJoystick);
+        assignActionToButtonPress(() -> climb.toggleHooks(), Constants.HOOKS_TOGGLE_BUTTON, this.m_climbJoystick);
         assignActionToButtonPress(() -> { 
             climb.setPivotOverride(true);
             climb.setExtendOverride(true);
