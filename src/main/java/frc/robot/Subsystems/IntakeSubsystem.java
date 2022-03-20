@@ -10,7 +10,7 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
-    private final float m_motorSpeed = 0.9f;
+    private final float m_motorSpeed = 0.75f;
     private IntakeDirection m_intakeDirection;
 
     private final float m_amperagePercentThreshold = 1.7f;
