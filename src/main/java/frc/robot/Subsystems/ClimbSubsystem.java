@@ -9,8 +9,8 @@ import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private final float m_longArmExtendMotorSpeed = 0.7f;
-    private final float m_longArmRetractMotorSpeed = 0.7f;
+    private final float m_longArmExtendMotorSpeed = 0.55f;
+    private final float m_longArmRetractMotorSpeed = 1f;
     private final DigitalInput m_longArmExtendLimitSwitch = new DigitalInput(1);
     private boolean m_extendOverride = false;
     
@@ -21,7 +21,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private final WPI_TalonSRX m_smallArmMotor1 = new WPI_TalonSRX(Constants.SMALL_ARM_1_MOTOR);
     private final WPI_TalonSRX m_smallArmMotor2 = new WPI_TalonSRX(Constants.SMALL_ARM_2_MOTOR);
-    private final float m_smallArmMotorSpeedLeft = 0.5f;
+    private final float m_smallArmMotorSpeedLeft = 0.9f;
     private final float m_smallArmMotorSpeedRight = 0.9f;
     private final int m_timeToToggleHooks = 500; // Time in MS it takes to toggle the hooks
     private long m_timeStartedTogglingHooks;
@@ -135,7 +135,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public double getArmExtendDistance() {
-        // Divide by 1024 because CTRE uses 0-4096 as a full rotation
+        // Divide by 4096 because CTRE uses 0-4096 as a full rotation
         return Math.abs(this.m_longArmExtendMotor.getSelectedSensorPosition() * Constants.ARM_EXTEND_POSITION_FACTOR / 4096);
     }
 
