@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
         SmartDashboard.putNumber("turnAroundAngle", 171);                       // This is in degrees
         SmartDashboard.putNumber("distanceFromHubToScore", 30);                 // This is in inches
-        SmartDashboard.putNumber("reverseAfterFinished", 141);                  // This is in inches
+        SmartDashboard.putNumber("reverseAfterFinished", 120);                  // This is in inches
         SmartDashboard.putNumber("turnAroundAfterScoreAngle", 180);             // This is in degrees
     }
 

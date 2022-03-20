@@ -39,7 +39,7 @@ public class AutonomousManager {
         double distanceToDriveAfterIntakeMotorSpeedDrop = SmartDashboard.getNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
         double turnAroundAngle = SmartDashboard.getNumber("turnAroundAngle", 171);                                                // This is in degrees
         double distanceFromHubToScore = SmartDashboard.getNumber("distanceFromHubToScore", 12);                                   // This is in inches
-        double reverseAfterFinished = SmartDashboard.getNumber("reverseAfterFinished", 141);                                      // This is in inches
+        double reverseAfterFinished = SmartDashboard.getNumber("reverseAfterFinished", 120);                                      // This is in inches
         double turnAroundAfterScoreAngle = SmartDashboard.getNumber("turnAroundAfterScoreAngle", 180);                            // This is in degrees
 
         // This if statement can be change (actually please change it) once we know
