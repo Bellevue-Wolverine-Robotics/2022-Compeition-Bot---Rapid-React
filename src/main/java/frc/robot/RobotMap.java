@@ -25,6 +25,7 @@ public class RobotMap {
 
     public void onDisable() {
         this.m_gyro.calibrate();
+        this.m_intake.stopIntake();
 	}
 
     public DriveTrainSubsystem getDriveTrain() {
