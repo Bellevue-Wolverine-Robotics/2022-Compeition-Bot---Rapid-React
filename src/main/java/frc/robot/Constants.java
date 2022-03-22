@@ -76,7 +76,9 @@ public class Constants {
     public static final int INTAKE_RIGHT_RETRACT = 3;
 
     // Input
-	public static final int INTAKE_START_BUTTON = 12;
-	public static final int INTAKE_REVERSE_BUTTON = 11;
-	public static final int INTAKE_TOGGLE_BUTTON = 9;
+    // The intake start and reverse are handled directly in input manager
+	//public static final int INTAKE_START_BUTTON = 12;
+	//public static final int INTAKE_REVERSE_BUTTON = 11;
+	public static final int INTAKE_HOLD_BUTTON = 1;
+	public static final int INTAKE_TOGGLE_BUTTON = 2;
 }

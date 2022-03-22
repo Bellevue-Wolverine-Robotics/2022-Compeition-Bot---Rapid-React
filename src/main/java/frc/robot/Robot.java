@@ -19,6 +19,8 @@ import frc.robot.commands.ClimbCalibrationCommand;
 public class Robot extends TimedRobot {
     private RobotMap m_robotMap;
 
+    private InputManager m_inputManager;
+
     private AutonomousManager m_autonomousManager;
 
     /**
@@ -43,15 +45,17 @@ public class Robot extends TimedRobot {
 
         this.m_robotMap = new RobotMap(); 
 
+        this.m_inputManager = new InputManager(this.m_robotMap);
+
         this.m_autonomousManager = new AutonomousManager(this.m_robotMap);
 
         // Temp vars for auto
-        SmartDashboard.putNumber("motorSpeed", 0.3);                            // This is in percent
+        SmartDashboard.putNumber("motorSpeed", 0.4);                            // This is in percent
         SmartDashboard.putNumber("intakeReverseTimeToScore", 2);                // This is in seconds
         SmartDashboard.putNumber("distanceToDriveAfterIntakeMotorSpeedDrop", 2);// This is in inches
         SmartDashboard.putNumber("turnAroundAngle", 171);                       // This is in degrees
         SmartDashboard.putNumber("distanceFromHubToScore", 30);                 // This is in inches
-        SmartDashboard.putNumber("reverseAfterFinished", 141);                  // This is in inches
+        SmartDashboard.putNumber("reverseAfterFinished", 120);                  // This is in inches
         SmartDashboard.putNumber("turnAroundAfterScoreAngle", 180);             // This is in degrees
     }
 
@@ -65,6 +69,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        this.m_inputManager.periodic();
     }
 
     /**

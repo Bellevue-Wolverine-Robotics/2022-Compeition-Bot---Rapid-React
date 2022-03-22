@@ -10,7 +10,8 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.INTAKE_MOTOR);
-    private final float m_motorSpeed = 0.9f;
+    private final float m_motorSpeed = 0.75f;
+    private IntakeDirection m_intakeDirection;
 
     private final float m_amperagePercentThreshold = 1.7f;
     private boolean m_hasIntakedBall = false;
@@ -66,18 +67,25 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void startIntake() {
+        this.m_intakeDirection = IntakeDirection.Forward;
         this.m_intakeMotor.set(ControlMode.PercentOutput, m_motorSpeed);
         this.m_timeStartIntake = System.currentTimeMillis();
     }
 
     public void reverseIntake() {
+        this.m_intakeDirection = IntakeDirection.Reverse;
         this.m_intakeMotor.set(ControlMode.PercentOutput, -m_motorSpeed);
         this.m_timeStartIntake = System.currentTimeMillis();
     }
 
     public void stopIntake() {
+        this.m_intakeDirection = IntakeDirection.Stop;
         this.m_intakeMotor.set(ControlMode.PercentOutput, 0.0);
         this.m_timeStartIntake = Long.MAX_VALUE;
+    }
+
+    public IntakeDirection getIntakeDirection() {
+        return this.m_intakeDirection;
     }
     
     public void toggleArm() {
@@ -95,5 +103,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean hasIntakedBall() {
         return this.m_hasIntakedBall;
+    }
+
+    public enum IntakeDirection {
+        Reverse,
+        Stop,
+        Forward
     }
 }
