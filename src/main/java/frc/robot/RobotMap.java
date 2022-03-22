@@ -20,11 +20,14 @@ public class RobotMap {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
     public RobotMap() {
-		
+        this.m_gyro.calibrate();
 	}
 
+    public void onInit() {
+        this.m_intake.stopIntake();
+    }
+
     public void onDisable() {
-        this.m_gyro.calibrate();
         this.m_intake.stopIntake();
 	}
 

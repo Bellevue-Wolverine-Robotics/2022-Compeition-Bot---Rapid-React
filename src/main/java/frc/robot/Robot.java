@@ -97,6 +97,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         this.m_autonomousManager.cancelCommands();
+        this.m_robotMap.onInit();
     }
 
     /** This function is called periodically during operator control. */
