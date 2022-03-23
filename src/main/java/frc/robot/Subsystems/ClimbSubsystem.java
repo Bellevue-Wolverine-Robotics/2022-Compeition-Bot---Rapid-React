@@ -26,6 +26,7 @@ public class ClimbSubsystem extends SubsystemBase {
     private final int m_timeToToggleHooks = 500; // Time in MS it takes to toggle the hooks
     private long m_timeStartedTogglingHooks;
     private boolean m_areHooksRetracted = true;
+    private boolean m_autoRetractHooks = false;
 
     public ClimbSubsystem() {
         // Make sure hooks are retracted
@@ -118,6 +119,9 @@ public class ClimbSubsystem extends SubsystemBase {
             this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
         } else {
             this.stopArm();
+            if (this.m_autoRetractHooks) {
+                this.setHookPosition(false);
+            }
         }
     }
 
@@ -222,5 +226,13 @@ public class ClimbSubsystem extends SubsystemBase {
         this.m_smallArmMotor2.set(this.m_smallArmMotorSpeedLeft);
 
         this.m_timeStartedTogglingHooks = System.currentTimeMillis();
+    }
+
+    public boolean getAutoRetractHooks() {
+        return this.m_areHooksRetracted;
+    }
+
+    public void setAutoRetractHooks(boolean value) {
+        this.m_autoRetractHooks = value;
     }
 }

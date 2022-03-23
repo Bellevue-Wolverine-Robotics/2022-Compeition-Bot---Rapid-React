@@ -52,6 +52,7 @@ public class Constants {
     public static final int LONG_ARM_RETRACT_BUTTON = 4;
     public static final int LONG_ARM_OVERRIDE_BUTTON = 8;
     public static final int HOOKS_TOGGLE_BUTTON = 2;
+    public static final int LONG_ARM_AUTO_HOOK_BUTTON = 9;
 
     // Calculations
     public static final double MAX_ARM_EXTENSION = 18500 / 4096D;

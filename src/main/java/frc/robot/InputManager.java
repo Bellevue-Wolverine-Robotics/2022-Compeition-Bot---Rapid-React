@@ -85,6 +85,8 @@ public class InputManager {
             climb.setPivotOverride(false);
             climb.setExtendOverride(false);
         }, Constants.LONG_ARM_OVERRIDE_BUTTON, this.m_climbJoystick);
+        assignActionToButtonPress(() -> climb.setAutoRetractHooks(true), Constants.LONG_ARM_AUTO_HOOK_BUTTON, this.m_climbJoystick);
+        assignActionToButtonRelease(() -> climb.setAutoRetractHooks(false), Constants.LONG_ARM_AUTO_HOOK_BUTTON, this.m_climbJoystick);
 
         // Intake
         IntakeSubsystem intake = this.m_robotMap.getIntake();
