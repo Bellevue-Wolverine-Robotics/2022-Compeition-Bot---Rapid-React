@@ -55,7 +55,7 @@ public class Constants {
     public static final int LONG_ARM_AUTO_HOOK_BUTTON = 9;
 
     // Calculations
-    public static final double MAX_ARM_EXTENSION = 20480 / 4096D;
+    public static final double MAX_ARM_EXTENSION = 18500 / 4096D;
     public static final double ARM_EXTENSION_DEADZONE = 100 / 4096D; // This is in encoder units
     public static final double ARM_EXTEND_POSITION_FACTOR = 1; // It's very difficult to calculate this
 
