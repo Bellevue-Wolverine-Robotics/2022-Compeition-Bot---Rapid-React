@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private final float m_longArmExtendMotorSpeed = 0.55f;
+    private final float m_longArmExtendMotorSpeed = 0.35f;
     private final float m_longArmRetractMotorSpeed = 1f;
     private final DigitalInput m_longArmExtendLimitSwitch = new DigitalInput(1);
     private boolean m_extendOverride = false;
@@ -117,11 +117,14 @@ public class ClimbSubsystem extends SubsystemBase {
     public void retractArm() {
         if (this.m_extendOverride || this.canArmRetract()) {
             this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
+        } else if (this.m_autoRetractHooks) {
+            if (this.m_longArmExtendLimitSwitch.get()) {
+                this.setHookPosition(false);
+            } else {
+                this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
+            }
         } else {
             this.stopArm();
-            if (this.m_autoRetractHooks) {
-                this.setHookPosition(false);
-            }
         }
     }
 
@@ -205,9 +208,7 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void toggleHooks() {
-        this.m_areHooksRetracted = !this.m_areHooksRetracted;
-
-        setHookPosition(this.m_areHooksRetracted);
+        setHookPosition(!this.m_areHooksRetracted);
     }
 
     public void stopHooks() {
@@ -216,6 +217,8 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void setHookPosition(boolean retractHooks) {
+        this.m_areHooksRetracted = retractHooks;
+
         // This code assumes that inverted retracts the hooks
         // If not then we can change it
         // Small arm motor one is mounted the other direction to 2 so it needs to be inverted differently
