@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
     private final WPI_TalonSRX m_longArmExtendMotor = new WPI_TalonSRX(Constants.LONG_ARM_EXTEND_MOTOR);
-    private final float m_longArmExtendMotorSpeed = 0.35f;
+    private final float m_longArmExtendMotorSpeed = 0.55f;
     private final float m_longArmRetractMotorSpeed = 1f;
     private final DigitalInput m_longArmExtendLimitSwitch = new DigitalInput(1);
     private boolean m_extendOverride = false;
