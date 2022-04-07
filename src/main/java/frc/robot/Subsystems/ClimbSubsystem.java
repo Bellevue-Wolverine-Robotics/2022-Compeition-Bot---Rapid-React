@@ -116,16 +116,16 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void retractArm() {
         if (this.m_extendOverride || this.canArmRetract()) {
-            this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
-        } else if (this.m_autoRetractHooks) {
-            if (this.m_longArmExtendLimitSwitch.get()) {
-                this.setHookPosition(false);
-            } else {
-                this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);
-            }
+            this.m_longArmExtendMotor.set(-this.m_longArmRetractMotorSpeed);   
         } else {
             this.stopArm();
+            if (this.m_autoRetractHooks) {
+                this.setHookPosition(false);
+
+
+            }
         }
+    
     }
 
     public void stopArm() {
