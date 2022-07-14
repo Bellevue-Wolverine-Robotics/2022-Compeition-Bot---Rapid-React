@@ -35,6 +35,12 @@ public class Constants {
     // Now we convert this to inches by multiplying by 0.0393701
     public static final double INCHES_PER_5V = (1_500_000 / 293) * 0.0393701;
 
+    // Path planning
+    public static final double KS_VOLTS = 0.15327;
+    public static final double KV_VOLTS = 2.8213;
+    public static final double KA_VOLTS = 0.60575;
+    public static final double KP_DRIVE_VEL = 3.9114;
+
 
     /*
      * Climb
