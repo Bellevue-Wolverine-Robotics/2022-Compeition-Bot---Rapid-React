@@ -13,7 +13,7 @@ public class RobotMap {
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
-	private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
+	private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem(this);
 
     private final ClimbSubsystem m_climb = new ClimbSubsystem();
 

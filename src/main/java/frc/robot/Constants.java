@@ -21,7 +21,7 @@ public class Constants {
 	public static final int QUICKTURN_BUTTON = 1;
 
     // Calculations        
-    public static final int WHEEL_SIZE = 6;
+    public static final double WHEEL_SIZE = 0.1524;
     public static final double GEAR_RATIO = 1 / 10.71;
     // Calculate the position factor by calculating the circumference of the wheel times the gear ratio
     // From https://dev.revrobotics.com/sparkmax/software-resources/migrating-ctre-to-rev#change-units-from-rotations-to-inches
@@ -39,7 +39,20 @@ public class Constants {
     public static final double KS_VOLTS = 0.15327;
     public static final double KV_VOLTS = 2.8213;
     public static final double KA_VOLTS = 0.60575;
+    
     public static final double KP_DRIVE_VEL = 3.9114;
+
+    public static final double TRACK_WIDTH = 0.0254;
+
+    // These aren't from sysid, but they're apparently good for most bots
+    // https://docs.wpilib.org/en/stable/docs/software/pathplanning/trajectory-tutorial/entering-constants.html#ramsete-parameters
+    public static final double RAMSETE_B = 2;
+    public static final double RAMSETE_Zeta = 0.7; 
+
+
+    // These are subject to change
+    public static final double MAX_SPEED = 3;
+    public static final double MAX_ACCEL = 3;
 
 
     /*

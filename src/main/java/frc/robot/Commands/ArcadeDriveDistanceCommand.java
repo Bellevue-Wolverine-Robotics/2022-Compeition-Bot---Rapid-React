@@ -7,7 +7,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
 
     private final DriveTrainSubsystem m_driveTrainSubsystem;
 
-    private final double m_forwardBackInchesDistance;
+    private final double m_forwardBackMetersDistance;
     private double m_startingPosition;
 
     private double m_speed;
@@ -17,7 +17,8 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
     public ArcadeDriveDistanceCommand(DriveTrainSubsystem driveTrainSubsystem, double forwardBackInchesDistance, double speed) {
         this.m_driveTrainSubsystem = driveTrainSubsystem;
 
-        this.m_forwardBackInchesDistance = forwardBackInchesDistance;
+        // Since this code was originally written in inches, we convert to meters to maintain legacy compatibility
+        this.m_forwardBackMetersDistance = forwardBackInchesDistance / 39.37;
 
         if (speed > 1 || speed < -1) {
             throw new IllegalArgumentException("Speed at invalid value: " + speed);
@@ -38,7 +39,7 @@ public class ArcadeDriveDistanceCommand extends CommandBase {
     public void execute() {
         // Check if distance travelled from start is larger than target position
         double currentPosition = this.m_driveTrainSubsystem.getLeftBackMotor().getEncoder().getPosition();
-        if (Math.abs(currentPosition - this.m_startingPosition) > this.m_forwardBackInchesDistance) {
+        if (Math.abs(currentPosition - this.m_startingPosition) > this.m_forwardBackMetersDistance) {
             // If it is then the command is finished and we should return
             this.m_isFinished = true;
             this.m_driveTrainSubsystem.stopMotors();
