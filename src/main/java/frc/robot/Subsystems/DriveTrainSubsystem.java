@@ -63,7 +63,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
         DriveTrainSubsystem.rightBackMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
         DriveTrainSubsystem.rightBackMotor.getEncoder().setVelocityConversionFactor(Constants.POSITION_FACTOR / 60);
 
-        resetEncoders();
+        this.resetEncoders();
 
         DriveTrainSubsystem.odometry = new DifferentialDriveOdometry(this.m_robotMap.getGyro().getRotation2d());
 
