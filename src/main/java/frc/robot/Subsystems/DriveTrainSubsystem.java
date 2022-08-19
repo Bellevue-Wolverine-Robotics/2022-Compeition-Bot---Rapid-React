@@ -29,9 +29,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     private static final CANSparkMax rightFrontMotor = new CANSparkMax(Constants.RIGHT_FRONT, MotorType.kBrushless);
     private static final CANSparkMax rightBackMotor = new CANSparkMax(Constants.RIGHT_BACK, MotorType.kBrushless);
     
-    private static final MotorControllerGroup m_leftControllerGroup = new MotorControllerGroup(DriveTrainSubsystem.leftFrontMotor, DriveTrainSubsystem.leftBackMotor);
-    private static final MotorControllerGroup m_rightControllerGroup = new MotorControllerGroup(DriveTrainSubsystem.rightFrontMotor, DriveTrainSubsystem.rightBackMotor);
-    private static final DifferentialDrive m_drive = new DifferentialDrive(DriveTrainSubsystem.m_leftControllerGroup, DriveTrainSubsystem.m_rightControllerGroup);
+    private static final MotorControllerGroup leftControllerGroup = new MotorControllerGroup(DriveTrainSubsystem.leftFrontMotor, DriveTrainSubsystem.leftBackMotor);
+    private static final MotorControllerGroup rightControllerGroup = new MotorControllerGroup(DriveTrainSubsystem.rightFrontMotor, DriveTrainSubsystem.rightBackMotor);
+    private static final DifferentialDrive drive = new DifferentialDrive(DriveTrainSubsystem.leftControllerGroup, DriveTrainSubsystem.rightControllerGroup);
 
     private static DifferentialDriveOdometry odometry;
     private static final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
@@ -93,29 +93,29 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double forwardBack, double leftRight) {
-        DriveTrainSubsystem.m_drive.arcadeDrive(forwardBack, leftRight);
+        DriveTrainSubsystem.drive.arcadeDrive(forwardBack, leftRight);
     }
 
     public static void tankDriveVolts(double leftVolts, double rightVolts) {
-        DriveTrainSubsystem.m_leftControllerGroup.setVoltage(leftVolts);
-        DriveTrainSubsystem.m_rightControllerGroup.setVoltage(rightVolts);
-        DriveTrainSubsystem.m_drive.feed();
+        DriveTrainSubsystem.leftControllerGroup.setVoltage(leftVolts);
+        DriveTrainSubsystem.rightControllerGroup.setVoltage(rightVolts);
+        DriveTrainSubsystem.drive.feed();
     }
 
     public void setMaxOutput(double maxOutput) {
-        DriveTrainSubsystem.m_drive.setMaxOutput(maxOutput);
+        DriveTrainSubsystem.drive.setMaxOutput(maxOutput);
     }
 
     public void stopMotors() {
-        DriveTrainSubsystem.m_drive.stopMotor();
+        DriveTrainSubsystem.drive.stopMotor();
     }
 
     public MotorControllerGroup getLeftControllerGroup() {
-        return DriveTrainSubsystem.m_leftControllerGroup;
+        return DriveTrainSubsystem.leftControllerGroup;
     }
 
     public MotorControllerGroup getRightControllerGroup() {
-        return DriveTrainSubsystem.m_rightControllerGroup;
+        return DriveTrainSubsystem.rightControllerGroup;
     }
 
     public CANSparkMax getLeftFrontMotor() {
