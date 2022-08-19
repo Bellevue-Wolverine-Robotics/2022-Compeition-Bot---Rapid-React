@@ -36,22 +36,21 @@ public class Constants {
     public static final double INCHES_PER_5V = (1_500_000 / 293) * 0.0393701;
 
     // Path planning
-    public static final double KS_VOLTS = 0.15327;
-    public static final double KV_VOLTS = 2.8213;
-    public static final double KA_VOLTS = 0.60575;
+    public static final double KS_VOLTS = 0.13647;
+    public static final double KV_VOLTS = 2.8442;
+    public static final double KA_VOLTS = 0.56834;
     
-    public static final double KP_DRIVE_VEL = 3.9114;
+    public static final double KP_DRIVE_VEL = 3.8997;
 
-    public static final double TRACK_WIDTH = 0.0254;
+    public static final double TRACK_WIDTH = 0.57785;
 
     // These aren't from sysid, but they're apparently good for most bots
     // https://docs.wpilib.org/en/stable/docs/software/pathplanning/trajectory-tutorial/entering-constants.html#ramsete-parameters
     public static final double RAMSETE_B = 2;
     public static final double RAMSETE_Zeta = 0.7; 
 
-
     // These are subject to change
-    public static final double MAX_SPEED = 3;
+    public static final double MAX_SPEED = 0.25;
     public static final double MAX_ACCEL = 3;
 
 

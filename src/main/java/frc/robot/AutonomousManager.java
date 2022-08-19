@@ -155,7 +155,7 @@ public class AutonomousManager {
     } 
 
     private Command getPathPlanningAutonomousCommand() {
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/Go back.wpilib.json");
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/Test.wpilib.json");
         Trajectory trajectory;
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -165,7 +165,7 @@ public class AutonomousManager {
         }
 
         this.m_robotMap.getDriveTrain().resetOdometry(trajectory.getInitialPose());
-
+        
         return new RamseteCommand(
             trajectory,
             DriveTrainSubsystem::getPose,

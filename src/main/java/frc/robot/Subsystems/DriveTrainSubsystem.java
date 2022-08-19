@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -8,6 +12,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,7 +34,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     private static final DifferentialDrive m_drive = new DifferentialDrive(DriveTrainSubsystem.m_leftControllerGroup, DriveTrainSubsystem.m_rightControllerGroup);
 
     private static DifferentialDriveOdometry odometry;
-    private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
+    private static final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.TRACK_WIDTH);
     
     public DriveTrainSubsystem(RobotMap robotMap) {
         this.m_robotMap = robotMap;
@@ -43,17 +50,38 @@ public class DriveTrainSubsystem extends SubsystemBase {
         DriveTrainSubsystem.rightBackMotor.setIdleMode(IdleMode.kBrake);
 
         // Because these motors are facing the other direction
-        DriveTrainSubsystem.m_rightControllerGroup.setInverted(true);
+        DriveTrainSubsystem.rightFrontMotor.setInverted(true);
+        DriveTrainSubsystem.rightBackMotor.setInverted(true);
 
         // Set the position conversion of the encoders so we can do distances
         DriveTrainSubsystem.leftFrontMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
+        DriveTrainSubsystem.leftFrontMotor.getEncoder().setVelocityConversionFactor(Constants.POSITION_FACTOR / 60);
         DriveTrainSubsystem.leftBackMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
+        DriveTrainSubsystem.leftBackMotor.getEncoder().setVelocityConversionFactor(Constants.POSITION_FACTOR / 60);
         DriveTrainSubsystem.rightFrontMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
+        DriveTrainSubsystem.rightFrontMotor.getEncoder().setVelocityConversionFactor(Constants.POSITION_FACTOR / 60);
         DriveTrainSubsystem.rightBackMotor.getEncoder().setPositionConversionFactor(Constants.POSITION_FACTOR);
+        DriveTrainSubsystem.rightBackMotor.getEncoder().setVelocityConversionFactor(Constants.POSITION_FACTOR / 60);
 
         resetEncoders();
 
         DriveTrainSubsystem.odometry = new DifferentialDriveOdometry(this.m_robotMap.getGyro().getRotation2d());
+
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/Test.wpilib.json");
+        Trajectory trajectory;
+        try {
+            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+            System.out.println(Files.size(trajectoryPath) / 1024);
+        } catch (IOException e) {
+            trajectory = null;
+            e.printStackTrace();
+        }
+
+        for (double time = 0; time < trajectory.getTotalTimeSeconds(); time += 1)
+        {
+            System.out.println(trajectory.sample(time));
+        }   
+
     }
 
     @Override
@@ -107,7 +135,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public DifferentialDriveKinematics getKinematics() {
-        return this.m_kinematics;
+        return DriveTrainSubsystem.m_kinematics;
     }
 
     public static Pose2d getPose() {
@@ -116,16 +144,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     
     public static DifferentialDriveWheelSpeeds getWheelSpeeds() {
         // Not sure if having both front, both back, or opposite for this is better
-        return new DifferentialDriveWheelSpeeds(DriveTrainSubsystem.leftFrontMotor.getEncoder().getVelocity(), DriveTrainSubsystem.rightFrontMotor.getEncoder().getVelocity());
-    }
-
-    public double getAverageEncoderDistance() {
-        return (
-            DriveTrainSubsystem.leftFrontMotor.getEncoder().getPosition() +
-            DriveTrainSubsystem.leftBackMotor.getEncoder().getPosition() +
-            DriveTrainSubsystem.rightFrontMotor.getEncoder().getPosition() +
-            DriveTrainSubsystem.rightBackMotor.getEncoder().getPosition()
-        ) / 4.0;
+        return new DifferentialDriveWheelSpeeds(
+            DriveTrainSubsystem.leftFrontMotor.getEncoder().getVelocity(),
+            DriveTrainSubsystem.rightFrontMotor.getEncoder().getVelocity());
     }
 
     public void resetOdometry(Pose2d pose) {
